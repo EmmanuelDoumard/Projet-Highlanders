@@ -11,15 +11,15 @@ void pin_Configuration(void)
 	
 	// configuration des GPIOs
 	// directement dans les registres
-	//LPC_GPIO0->FIODIR &= ~(1<<0);
-	//LPC_GPIO0 ->FIOMASK = ~(1<<0);
+	LPC_GPIO0->FIODIR &= ~(1<<0); 
+	LPC_GPIO0 ->FIOMASK = ~(1<<0); 
 	// en utilisant une fonction 
-	GPIO_SetDir(1,0x200,1);
+	// GPIO_SetDir(0,0,0);
 	
 	// configuration des pinsel
 	maconfig.Portnum = PINSEL_PORT_1;
-	maconfig.Pinnum =PINSEL_PIN_9;
-	maconfig.Funcnum = PINSEL_FUNC_0;
+	maconfig.Pinnum =PINSEL_PIN_28;
+	maconfig.Funcnum = PINSEL_FUNC_3;
 	maconfig.Pinmode =PINSEL_PINMODE_PULLDOWN;
 	maconfig.OpenDrain = PINSEL_PINMODE_NORMAL;
   PINSEL_ConfigPin(&maconfig);

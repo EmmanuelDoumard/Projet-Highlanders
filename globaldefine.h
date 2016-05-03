@@ -7,10 +7,13 @@
 #include "lpc17xx_pinsel.h"
 #include "lpc17xx_timer.h"
 #include "lpc17xx_uart.h"
+#include "ili_lcd_general.h"
+#include "lcd_api.h"
+#include "bula.h"
 
-// Déclaration des constantes
 
-#define TIMER0_TIME_STEP			1		// 1 us de Step Timer (25 000/25000)
-#define TIMER0_MATCH_VALUE_100us  100 // Match value pour avoir 100 us
-#define MATCH_VALUE1 1000 // A utiliser dans l'interruption, correspond a 1
-#define DUREE_BIP 1000      // Durée d'un bip (à multiplier par 100us) => 0.1s
+
+#define TIMER_TIME_STEP			1000			// 1000 us de Step Timer
+#define TIMER_MATCH_VALUE_1ms  499 // valeur pour avoir 1 ms 
+
+

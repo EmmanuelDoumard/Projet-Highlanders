@@ -2,6 +2,9 @@
 #include "globaldefine.h"
 #include "globaldec.h"
 
+#include "ili_lcd_general.h"
+#include "terminal.h"
+
  void T0_Init(void);
  void pin_Configuration(void);
 
@@ -16,9 +19,11 @@
 int main(void)
 {
 	 
-	 pin_Configuration();
-	 T0_Init();
+	pin_Configuration();
+	T0_Init();
 	 
+	lcd_Initializtion();	
+	interface();
 	while(1)
 	{	
 	}		;

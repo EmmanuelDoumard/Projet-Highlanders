@@ -6,7 +6,7 @@
 extern int toto;
 extern char bufferTX[64]; // buffer pour l'affichage sur uart0
 extern int n;
-extern int n;
+
 extern int TIMER0_VAR100US; // Base de temps de 100 us pour timer0, se reset pour des raisons pratique
 extern int TIMER0_VAR100USROLAND; // Spécial Roland
 extern int TIMER0_TEMPS; // Définit le temps "absolu" depuis le début du timer0 (*100us)

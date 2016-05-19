@@ -3,7 +3,6 @@
 // fichier contenant la déclaration des variables globales de l'application
 // à inclure seulement dans le main
 
-int toto;
 char bufferTX[16]; // buffer pour l'affichage sur uart0
 int n;  // taille du message à envoyer (max 16)
 
@@ -29,3 +28,4 @@ long TIMER0_VAR100USROLAND=0 ; // Spécial Roland sur Timer0
 int echo=0;
 int trigger=0;
 int tableau[250];
+int modeUS;

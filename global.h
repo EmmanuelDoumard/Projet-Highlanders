@@ -3,7 +3,6 @@
 
 #include "globaldefine.h"
 
-extern int toto;
 extern char bufferTX[64]; // buffer pour l'affichage sur uart0
 extern int n;
 
@@ -28,3 +27,4 @@ extern int TIMER0_VAR100USROLAND; // Spécial Roland
 extern int echo;
 extern int trigger;
 extern int tableau[250];
+extern int modeUS;

@@ -83,6 +83,6 @@ void pin_Configuration(void)
 	LPC_GPIO0->FIODIR=LPC_GPIO0->FIODIR|(1<<26);
 	LPC_GPIO0->FIODIR=LPC_GPIO0->FIODIR&~(1<<24);
    
-  GPIO_IntCmd(0,(1<<26),1);
+  GPIO_IntCmd(0,(1<<26),0);
 	
 }

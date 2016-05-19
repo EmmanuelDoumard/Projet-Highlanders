@@ -11,6 +11,7 @@
 #include "ili_lcd_general.h"
 #include "lcd_api.h"
 #include "bula.h"
+#include "ultrason.h"
 
 // Déclaration des constantes
 

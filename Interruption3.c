@@ -13,13 +13,14 @@
 
 void EINT3_IRQHandler(void)
 {
-    if(((LPC_GPIO0->FIOPIN>>26)&(1<<0))==1) {
-        trigger_signal();
-        GPIO_ClearInt(0,26);
-			
-    }
+    
     if(((LPC_GPIO0->FIOPIN>>25)&(1<<0))==1) {
+				GPIO_ClearInt(0,25);
         retour_echo();
-        GPIO_ClearInt(0,25);
+    } else if(((LPC_GPIO0->FIOPIN>>26)&(1<<0))==1) {
+				GPIO_ClearInt(0,26);
+				modeUS=1;
+        bouton_appuye();
+			
     }
 	}

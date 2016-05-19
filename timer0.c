@@ -1,5 +1,6 @@
 #include "globaldefine.h"
 #include "global.h"
+
 //===========================================================//
 // But: Init Timer0  pour generer 1 signal à 500Hz (2ms) en interruption
 //===========================================================//
@@ -39,6 +40,9 @@ void TIMER0_IRQHandler(void){
 	TIMER0_VAR100US++;
 	TIMER0_VAR100USROLAND++;
 	trigger++; // cf ultrason
+	if (trigger>600 & modeUS==1) {
+		bouton_appuye();
+	}
 	
 	if (TIMER0_TEMPS % 10 == 0){
 		echo++; // cf ultrason

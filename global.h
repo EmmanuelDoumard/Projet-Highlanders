@@ -6,12 +6,25 @@
 extern int toto;
 extern char bufferTX[64]; // buffer pour l'affichage sur uart0
 extern int n;
+
+// Variables Manu
+
 extern int TIMER0_VAR100US; // Base de temps de 100 us pour timer0, se reset pour des raisons pratique
-extern int TIMER0_VAR100USROLAND; // Spécial Roland
 extern int TIMER0_TEMPS; // Définit le temps "absolu" depuis le début du timer0 (*100us)
 extern int BIP;                // "Booléen" qui indique si le bip est actif
 extern int NB_BIP;
 extern int MATCH_BIP;
 extern int MATCH_VALUE_FQBIP;
+
+// Variables Benoît
+
+
+// Variables Roland
+
+extern int TIMER0_VAR100USROLAND; // Spécial Roland
+
+// Variables Guillaume
+
 extern int echo;
 extern int trigger;
+extern int tableau[250];

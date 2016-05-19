@@ -38,8 +38,11 @@ void TIMER0_IRQHandler(void){
 	TIMER0_TEMPS++;
 	TIMER0_VAR100US++;
 	TIMER0_VAR100USROLAND++;
-	echo++; // cf ultrason
 	trigger++; // cf ultrason
+	
+	if (TIMER0_TEMPS % 10 == 0){
+		echo++; // cf ultrason
+	}
 	
 	// Gestion du bip
 	if (TIMER0_TEMPS<150000){

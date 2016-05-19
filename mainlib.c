@@ -6,7 +6,9 @@
 #include "terminal.h"
 
  void T0_Init(void);
+ void T3_Init(void);
  void pin_Configuration(void);
+ void envoi_message(int*);
 
 /* With ARM and GHS toolsets, the entry point is main() - this will
    allow the linker to generate wrapper code to setup stacks, allocate
@@ -18,15 +20,16 @@
 
 int main(void)
 {
-	 
+	int t[5]={0,1,1,0,1};
 	pin_Configuration();
 	T0_Init();
-	 
+	T3_Init();
 	lcd_Initializtion();	
 	interface();
 	while(1)
-	{	
-	}		;
+	{
+		envoi_message(t);
+	}
 	
 }
 

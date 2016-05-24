@@ -14,4 +14,5 @@ void print_pix(uint16_t x,uint16_t y,unsigned int color); //remplis le pixel xy 
 void interface(void);
 void change_id_am(uint16_t id1, uint16_t id0, uint16_t am);
 void interface(void);
+void getpos(void);
 #endif // LCD_BULA

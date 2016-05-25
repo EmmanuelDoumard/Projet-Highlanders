@@ -50,6 +50,10 @@ void change_id_am(uint16_t id1, uint16_t id0, uint16_t am)
 	//1.1.1 idem
 }
 
+void converrt(void)
+{
+	
+}
 
 
 void LCD_fill_reg(uint16_t x1,uint16_t x2,uint16_t y1,uint16_t y2,unsigned int color)

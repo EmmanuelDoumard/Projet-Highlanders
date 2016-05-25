@@ -13,17 +13,22 @@
 
 void EINT3_IRQHandler(void)
 {
-  LCD_fill_rect(125,175,5,59,Black,Black);
-	getpos();
-	GPIO_ClearInt(0, 1<<19);  
+  
 	
-    if(((LPC_GPIO0->FIOPIN>>25)&(1<<0))==1) {
+	
+	/*
+    if(GPIO_GetIntStatus(0,25,1)) {
 				GPIO_ClearInt(0,25);
         retour_echo();
-    } else if(((LPC_GPIO0->FIOPIN>>26)&(1<<0))==1) {
+    } else if(GPIO_GetIntStatus(0,26,1)) {
 				GPIO_ClearInt(0,26);
 				modeUS=1;
         bouton_appuye();
 			
-    }
+    } else if(GPIO_GetIntStatus(0,19,1)) {*/
+			GPIO_ClearInt(0, 1<<19);  
+			getpos();
+			convert();
+			LCD_fill_rect(pos_x-300,pos_y,5,5,Black,Black);
+		//}
 	}

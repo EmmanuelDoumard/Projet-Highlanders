@@ -5,6 +5,7 @@
 #include "lpc17xx_ssp.h"
 #include "debug_frmwrk.h"
 #include "global.h"
+
 #define BUF_SIZE    0x01   // 1 Byte
 
 // SPI Data Setup structure variable
@@ -12,7 +13,7 @@ SSP_DATA_SETUP_Type LCDSPI1Data;
 
 uint8_t SPI_WriteByte(uint8_t data)
 {
- //   uint8_t touch_data_tx[BUF_SIZE];
+//    uint8_t touch_data_tx[BUF_SIZE];
     uint8_t touch_data_rx[BUF_SIZE];
     uint8_t rl;
 
@@ -23,7 +24,7 @@ uint8_t SPI_WriteByte(uint8_t data)
     {
         LCDSPI1Data.rx_data = &touch_data_rx;
         return  touch_data_rx[0];
-        //_printf("%d\n",rl);
+        
     }
     return 0;
 }
@@ -80,17 +81,22 @@ void touch_init(void)
 
     GPIO_SetDir (0,(1<<19),0);  /* PORT0.19 defined as input        */
     GPIO_IntCmd (0,(1<<19),1);  /*P0.19 Falling edge interrupt      */
-    NVIC_EnableIRQ(EINT3_IRQn);
+    
+		NVIC_EnableIRQ(EINT3_IRQn);
     
     TP_CS_HIGH();
 
     //spi1_master_init();
     spi1_init();
-    TP_CS_LOW();
-    SPI_WriteByte( 1<<7 ); /* ´ò¿ªÖÐ¶Ï */
+    
+		TP_CS_LOW();
+    SPI_WriteByte( 1<<7 ); 
     TP_CS_HIGH();
 
+    
 }
+
+
 void getpos(void)
 {
 	uint16_t tmpx[10];
@@ -147,3 +153,79 @@ void getpos(void)
 	
 }
 
+
+void touch_debug(void)
+{
+    uint16_t tmpx[10];
+    uint16_t tmpy[10];
+    uint16_t touch_x,touch_y;
+    unsigned int i;
+
+
+
+    // ??????,????????????
+    while( TP_DOWN() )
+    {
+        for(i=0; i<10; i++)
+        {
+            TP_CS_LOW();
+            SPI_WriteByte(TOUCH_MSR_X);                  /* read X */
+            tmpx[i] = (SPI_WriteByte(0x00)&0x7F)<<5;     /* read MSB bit[11:8] */
+            tmpx[i] |= SPI_WriteByte(TOUCH_MSR_Y)>>3;    /* read LSB bit[7:0] and prepare read Y */
+            tmpy[i] = (SPI_WriteByte(0x00)&0x7F)<<5;     /* read MSB bit[11:8] */
+            tmpy[i] |= SPI_WriteByte(0x00)>>3;           /* read LSB bit[7:0] */
+            SPI_WriteByte( 1<<7 ); /* ?????? */
+            TP_CS_HIGH();
+        }
+
+        //????????,?????
+        {
+            uint32_t min_x = 0xFFFF,min_y = 0xFFFF;
+            uint32_t max_x = 0,max_y = 0;
+            uint32_t total_x = 0;
+            uint32_t total_y = 0;
+            unsigned int i;
+
+            for(i=0; i<10; i++)
+            {
+                if( tmpx[i] < min_x )
+                {
+                    min_x = tmpx[i];
+                }
+                if( tmpx[i] > max_x )
+                {
+                    max_x = tmpx[i];
+                }
+                total_x += tmpx[i];
+
+                if( tmpy[i] < min_y )
+                {
+                    min_y = tmpy[i];
+                }
+                if( tmpy[i] > max_y )
+                {
+                    max_y = tmpy[i];
+                }
+                total_y += tmpy[i];
+            }
+            total_x = total_x - min_x - max_x;
+            total_y = total_y - min_y - max_y;
+            touch_x = total_x / 8;
+            touch_y = total_y / 8;
+        }//????????,?????
+
+        //display
+        {
+            char x_str[20];
+            char y_str[20];
+					
+           
+           
+        }
+    }// ??????,????????????
+
+    // touch up
+    
+}
+
+/****************************EOF*************************************/

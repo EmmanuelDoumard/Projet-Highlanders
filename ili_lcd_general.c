@@ -1,5 +1,5 @@
 #include "ili_lcd_general.h"
-
+#include "terminal.h"
 /*---------------------------- Global variables ------------------------------*/
 
 static void delay (int cnt)
@@ -149,11 +149,11 @@ __INLINE void write_reg(unsigned char reg_addr,unsigned short reg_val)
     write_data(reg_val);
 }
 
-/********* control <只移植以上函数即可> ***********/
+/********* control <?????????> ***********/
 
-static unsigned short deviceid=0;//设置一个静态变量用来保存LCD的ID
+static unsigned short deviceid=0;//????????????LCD?ID
 
-//返回LCD的ID
+//??LCD?ID
 unsigned int lcd_getdeviceid(void)
 {
     return deviceid;
@@ -174,7 +174,7 @@ unsigned short BGR2RGB(unsigned short c)
 
 void lcd_SetCursor(unsigned int x,unsigned int y)
 {
-    // SSD1289 控制器的屏使用不同的寄存器
+    // SSD1289 ?????????????
     if( deviceid == 0x8989 )
     {
         write_reg(0x004e,x);    /* 0-239 */
@@ -184,7 +184,7 @@ void lcd_SetCursor(unsigned int x,unsigned int y)
     write_reg(33,y);    /* 0-319 */
 }
 
-/* 读取指定地址的GRAM */
+/* ???????GRAM */
 unsigned short lcd_read_gram(unsigned int x,unsigned int y)
 {
     unsigned short temp;
@@ -196,7 +196,7 @@ unsigned short lcd_read_gram(unsigned int x,unsigned int y)
     return temp;
 }
 
-void lcd_clear(unsigned short Color)    //rempli l'閏ran d'une couleur unie
+void lcd_clear(unsigned short Color)    //rempli l'?ran d'une couleur unie
 {
     unsigned int index=0;
     lcd_SetCursor(0,0);
@@ -207,6 +207,111 @@ void lcd_clear(unsigned short Color)    //rempli l'閏ran d'une couleur unie
     }
 }
 
+void lcd_data_bus_test(void)
+{
+    unsigned short temp1;
+    unsigned short temp2;
+
+    if(deviceid == 0x8989)
+    {
+        /* [5:4]-ID~ID0 [3]-AM-1??-0?? */
+        write_reg(0x0011,0x6030 | (0<<3)); // AM=0 hline
+    }
+    else
+    {
+        /* [5:4]-ID~ID0 [3]-AM-1??-0?? */
+        write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
+    }
+
+    /* wirte */
+    lcd_SetCursor(0,0);
+    rw_data_prepare();
+    write_data(0x5555);
+    write_data(0xAAAA);
+
+    /* read */
+    lcd_SetCursor(0,0);
+    if (
+        (deviceid ==0x9325)
+        || (deviceid ==0x9328)
+        || (deviceid ==0x9320)
+    )
+    {
+        temp1 = BGR2RGB( lcd_read_gram(0,0) );
+        temp2 = BGR2RGB( lcd_read_gram(1,0) );
+    }
+    else if( (deviceid ==0x4531) || (deviceid == 0x8989 ) )
+    {
+        temp1 = lcd_read_gram(0,0);
+        temp2 = lcd_read_gram(1,0);
+    }
+
+
+
+}
+
+void lcd_gram_test(void)
+{
+    unsigned short temp;
+    unsigned int test_x;
+    unsigned int test_y;
+
+    
+
+    if( deviceid != 0x8989 )
+    {
+        /* [5:4]-ID~ID0 [3]-AM-1??-0?? */
+        write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
+    }
+
+    /* write */
+    temp=0;
+    lcd_SetCursor(0,0);
+    rw_data_prepare();
+    for(test_y=0; test_y<76800; test_y++)
+    {
+        write_data(temp);
+        temp++;
+    }
+
+    /* read */
+    temp=0;
+
+    if (
+        (deviceid ==0x9320)
+        || (deviceid ==0x9325)
+        || (deviceid ==0x9328)
+    )
+    {
+        for(test_y=0; test_y<320; test_y++)
+        {
+            for(test_x=0; test_x<240; test_x++)
+            {
+                if( BGR2RGB( lcd_read_gram(test_x,test_y) ) != temp++)
+                {
+                    
+                    return;
+                }
+            }
+        }
+        
+    }
+    else if( (deviceid ==0x4531) || (deviceid == 0x8989) )
+    {
+        for(test_y=0; test_y<320; test_y++)
+        {
+            for(test_x=0; test_x<240; test_x++)
+            {
+                if(  lcd_read_gram(test_x,test_y) != temp++)
+                {
+                    
+                    return;
+                }
+            }
+        }
+       
+    }
+}
 
 
 void lcd_Initializtion(void)
@@ -226,13 +331,10 @@ void lcd_Initializtion(void)
         && (deviceid != 0x8989)
     )
     {
-      
+        
         return;
     }
-    else
-    {
-
-    }
+    
 
     if (deviceid==0x9325|| deviceid==0x9328)
     {
@@ -244,7 +346,7 @@ void lcd_Initializtion(void)
         write_reg(0x0001,0x0100);                    //
 #endif
         write_reg(0x0002,0x0700); 				    //power on sequence
-        /* [5:4]-ID1~ID0 [3]-AM-1垂直-0水平 */
+        /* [5:4]-ID1~ID0 [3]-AM-1??-0?? */
         write_reg(0x0003,(1<<12)|(1<<5)|(0<<4) | (1<<3) );
         write_reg(0x0004,0x0000);
         write_reg(0x0008,0x0207);
@@ -519,7 +621,7 @@ void lcd_Initializtion(void)
         // 0 0   1    0    1    0    1    1   0 0 0 0 0 0 0 0
         write_reg(0x000E,0x2900);
         write_reg(0x001E,0x00B8);
-        write_reg(0x0001,0x2B3F);//驱动输出控制320*240  0x6B3F
+        write_reg(0x0001,0x2B3F);//??????320*240  0x6B3F
         write_reg(0x0010,0x0000);
         write_reg(0x0005,0x0000);
         write_reg(0x0006,0x0000);
@@ -527,7 +629,7 @@ void lcd_Initializtion(void)
         write_reg(0x0017,0x0003);
         write_reg(0x0007,0x0233);//0x0233
         write_reg(0x000B,0x0000|(3<<6));
-        write_reg(0x000F,0x0000);//扫描开始地址
+        write_reg(0x000F,0x0000);//??????
         write_reg(0x0041,0x0000);
         write_reg(0x0042,0x0000);
         write_reg(0x0048,0x0000);
@@ -550,14 +652,19 @@ void lcd_Initializtion(void)
         write_reg(0x0023,0x0000);
         write_reg(0x0024,0x0000);
         write_reg(0x0025,0x8000);   // 65hz
-        write_reg(0x004f,0);        // 行首址0
-        write_reg(0x004e,0);        // 列首址0
-        //数据总线测试,用于测试硬件连接是否正常.
-
-        //清屏
+        write_reg(0x004f,0);        // ???0
+        write_reg(0x004e,0);        // ???0
+        //??????,????????????.
+        lcd_data_bus_test();
+        //??
         lcd_clear( Blue );
         //return ;
     }
 
+    //??????,????????????.
+    lcd_data_bus_test();
+    //GRAM??,???????LCD?????GRAM.??????????
+    lcd_gram_test();
+		//??
     lcd_clear( Blue );
 }

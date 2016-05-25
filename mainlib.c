@@ -22,16 +22,16 @@ int main(void)
 {
 	// Initialisation Manu
 	
-	pin_Configuration();
-	T0_Init();
+	//pin_Configuration();
+	//T0_Init();
 
 	// Initialisation Rolando
 
-	T2_Init();
-	T3_Init();
-	emi=1;
-	TIM_Cmd(LPC_TIM3,ENABLE);
-	TIM_Cmd(LPC_TIM2,ENABLE);
+	//T2_Init();
+	//T3_Init();
+	//emi=1;
+	//TIM_Cmd(LPC_TIM3,ENABLE);
+	//TIM_Cmd(LPC_TIM2,ENABLE);
 
 	// Initialisation Pinpin
 

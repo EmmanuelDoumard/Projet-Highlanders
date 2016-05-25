@@ -15,4 +15,5 @@ void interface(void);
 void change_id_am(uint16_t id1, uint16_t id0, uint16_t am);
 void interface(void);
 void getpos(void);
+void convert();
 #endif // LCD_BULA

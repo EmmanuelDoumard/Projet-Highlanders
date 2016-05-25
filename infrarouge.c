@@ -1,5 +1,6 @@
 #include "globaldefine.h"
 #include "global.h"
+#include "infrarouge.h"
 
 
 //===========================================================//
@@ -34,6 +35,12 @@ void T3_Init(void)
 
 void T2_Init(void){
 	TIM_CAPTURECFG_Type maconfig;
+	TIM_TIMERCFG_Type		Timer_Config_Structure;
+	
+	Timer_Config_Structure.PrescaleOption = TIM_PRESCALE_USVAL;				
+	Timer_Config_Structure.PrescaleValue	= 1;	
+	
+	TIM_Init(LPC_TIM2, TIM_TIMER_MODE,&Timer_Config_Structure);
 	
 	//initialisation du timer en mode capture sur le port 1//
 	maconfig.CaptureChannel=1;
@@ -162,13 +169,55 @@ void envoi_message2(void){
 
 
 void TIMER2_IRQHandler(void){
-	if(indicerec<10)
-		{
-			recu[indicerec]=LPC_TIM2->CR1;
+		compar=LPC_TIM2->CR1;
+	if(indicerec==9){
+		etatrec=0;
+	}
+	switch (etatrec){
+		case 0:
+			if((compar-LPC_TIM2->CR1) > 8800 & (compar-LPC_TIM2->CR1) < 9200){
+				etatrec=1;
+			}
+			else{
+				etatrec=0;
+			}
+		break;
+		case 1:
+			if((compar-LPC_TIM2->CR1) > 4300 & (compar-LPC_TIM2->CR1) < 4700){
+				etatrec=2;
+				indicerec=0;
+			}
+			else{
+				etatrec=0;
+			}
+		break;
+		case 2:
+			if((compar-LPC_TIM2->CR1) > 580 & (compar-LPC_TIM2->CR1) < 620){
+				etatrec=3;
+			}
+			else{
+				etatrec=0;
+			}
+		break;
+		case 3:
+			if((compar-LPC_TIM2->CR1) > 950 & (compar-LPC_TIM2->CR1) < 1050){
+				etatrec=2;
+				messagerec[indicerec]=1;
+			}
+			else{
+				if((compar-LPC_TIM2->CR1) > 1900 & (compar-LPC_TIM2->CR1) < 2100){
+				etatrec=2;
+				messagerec[indicerec]=0;
+				}
+				else{
+					etatrec=0;
+				}
+			}
+		break;
 		}
-	TIM_ClearIntPending(LPC_TIM2,1);
-	LPC_TIM0->IR|=(1<<0); //Acquittement
+	compar=LPC_TIM2->CR1;
+	LPC_TIM0->IR|=(1<<0);
+	TIM_ClearIntPending(LPC_TIM2,TIM_CR1_INT);
 }
-
 
 

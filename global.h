@@ -3,36 +3,22 @@
 
 #include "globaldefine.h"
 
-extern char bufferTX[64]; // buffer pour l'affichage sur uart0
+extern int toto;
+extern char bufferTX[16]; // buffer pour l'affichage sur uart0
 extern int n;
-
-// Variables Manu
-
-extern int TIMER0_VAR100US; // Base de temps de 100 us pour timer0, se reset pour des raisons pratique
-extern int TIMER0_TEMPS; // Définit le temps "absolu" depuis le début du timer0 (*100us)
+extern long TIMER0_VAR100US; // Base de temps de 100 us pour timer0
+extern long TIMER0_VAR100USROLAND; // Spécial Roland
 extern int BIP;                // "Booléen" qui indique si le bip est actif
 extern int NB_BIP;
 extern int MATCH_BIP;
 extern int MATCH_VALUE_FQBIP;
-
-// Variables Benoît
-
-extern int pos_x;
-extern int pos_y;
-
-// Variables Roland
-
-extern int TIMER0_VAR100USROLAND; // Spécial Roland
+extern int echo;
+extern int trigger;
 extern int etat;
 extern int emi;
 extern int message[5];
 extern int indice;
-extern int recu[10];
+extern int messagerec[10];
 extern int indicerec;
-
-// Variables Guillaume
-
-extern int echo;
-extern int trigger;
-extern int tableau[250];
-extern int modeUS;
+extern int etatrec;
+extern unsigned long compar;

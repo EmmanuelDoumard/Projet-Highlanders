@@ -1,10 +1,9 @@
 #include "globaldefine.h"
 #include "global.h"
-
+#include "infrarouge.h"
 //===========================================================//
 // But: Init Timer0  pour generer 1 signal à 500Hz (2ms) en interruption
 //===========================================================//
-
 // Déclarations variables externes
 
 void T0_Init(void)
@@ -36,12 +35,11 @@ void T0_Init(void)
 
 /* Code de l'interruption. Est déclenchée si TC = MR, c'est-à-dire toutes les 1MS pour timer 0 */
 void TIMER0_IRQHandler(void){
-	TIMER0_TEMPS++;
 	TIMER0_VAR100US++;
 	TIMER0_VAR100USROLAND++;
+	echo++; // cf ultrason
 	trigger++; // cf ultrason
-	
-	if(emi){ // Fonction Roland
+	if(emi){
 		if (TIMER0_VAR100USROLAND>44){
 			envoi_message2();
 		}
@@ -61,43 +59,26 @@ void TIMER0_IRQHandler(void){
 			envoi_message2();
 		}
 	}
-	
-	if (trigger>600 & modeUS==1) {
-		bouton_appuye();
-	}
-	
-	if (TIMER0_TEMPS % 10 == 0){
-		echo++; // cf ultrason
-	}
-	
 	// Gestion du bip
-	if (TIMER0_TEMPS<150000){
-		if (TIMER0_VAR100US % MATCH_BIP==0){
-			BIP=1; //On active le bip
-		}
-		if ( BIP && (TIMER0_VAR100US % (MATCH_BIP+DUREE_BIP) == 0)){
-			BIP=0; // Après 100*100us (0.1s), on désactive le bip
-			TIMER0_VAR100US=1; // On réinitialise l'incrémenteur
-			NB_BIP++;
-		}
-		if ((NB_BIP % 7)==0){  // Tous les 8 bip
-			NB_BIP=1;
-			MATCH_BIP=MATCH_BIP/2; // On double la vitesse des bips
-			TIMER0_VAR100US=1;
-		}
-		
-
-		
-		if ((TIMER0_VAR100US % MATCH_VALUE_FQBIP==0) && BIP ){
-			if ((LPC_GPIO1->FIOPIN & 0x200)==0x200){
-				LPC_GPIO1->FIOPIN &= ~(1<<9); // Inversion du premier bit pour générer un signal carré de fqce MATCH_VALUE_FQBIP
-			}
-			else
-			{
-				LPC_GPIO1->FIOPIN |= (1<<9);
-			}
-		}
+	if (TIMER0_VAR100US % MATCH_BIP==0 ){
+		BIP=1; //On active le bip
+		NB_BIP++;
 	}
+	if ( BIP && (TIMER0_VAR100US % MATCH_BIP+1000 == 0)){
+		BIP=0; // Après 1000*100us (0.1s), on désactive le bip
+	}
+	if (NB_BIP%8==0){  // Tous les 8 bip
+		MATCH_BIP=MATCH_BIP/2; // On double la vitesse des bips
+	}
+	
+	
+	
+	if ((TIMER0_VAR100US % MATCH_VALUE_FQBIP==0) && BIP ){
+		LPC_GPIO0->FIOPIN ^= (1<<0); // Inversion du premier bit pour générer un signal carré de fqce MATCH_VALUE_FQBIP
+	}
+	// ROUTINE D'INTERRUPTION
+	// Note : Instructions conditionnelles pour arranger tout le monde
+	
 TIM_ClearIntPending(LPC_TIM0,0);
 LPC_TIM0->IR|=(1<<0); //Acquittement
 }

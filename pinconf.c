@@ -86,9 +86,9 @@ void pin_Configuration(void)
   bouton2.OpenDrain = PINSEL_PINMODE_NORMAL;
   PINSEL_ConfigPin(&bouton2);
 	
-	LPC_GPIO0->FIODIR=LPC_GPIO0->FIODIR|(1<<25);
-	LPC_GPIO0->FIODIR=LPC_GPIO0->FIODIR|(1<<26);
-	LPC_GPIO0->FIODIR=LPC_GPIO0->FIODIR&~(1<<24);
+	GPIO_SetDir(0,(1<<24),1);
+	GPIO_SetDir(0,(1<<25),0);
+	GPIO_SetDir(0,(1<<26),0);
    
   GPIO_IntCmd(0,(1<<26),0);
 	

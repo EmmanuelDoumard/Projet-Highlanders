@@ -14,7 +14,7 @@ void initTabUS(void) {
 
 void debut_signal(void) {
 	trigger=0; //On initialise le timer, pour savoir quand le relancer
-	GPIO_IntCmd(0,(1<<25),1); //on lance le mode interruption de l'echo
+	GPIO_IntCmd(0,(1<<25),0); //on lance le mode interruption de l'echo
 	GPIO_SetValue(0, (1<<24)); //on met la sortie du trigger sur ON
 	modeUS = 2; //la tâche a été effectuée, on passe à l'étape 2
 }

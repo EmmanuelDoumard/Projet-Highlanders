@@ -24,12 +24,15 @@ int pos_y;
 // Variables Roland
 
 long TIMER0_VAR100USROLAND=0 ; // Spécial Roland sur Timer0
-int etat;
-int emi;
-int message[5];
-int indice;
-int recu[10];
-int indicerec;
+
+int message[5]={1,1,1,1,0};
+int indice=0;
+int emi=0;
+int etat=0;
+int messagerec[10]={0,0,0,0,0,0,0,0,0,0};
+int indicerec=0;
+int etatrec=0;
+unsigned long compar=0;
 
 // Variables Guillaume
 
@@ -37,3 +40,4 @@ int echo=0;
 int trigger=0;
 int tableau[250];
 int modeUS;
+int statEcho;

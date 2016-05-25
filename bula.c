@@ -50,7 +50,7 @@ void change_id_am(uint16_t id1, uint16_t id0, uint16_t am)
 	//1.1.1 idem
 }
 
-void converrt(void)
+void convert(void)
 {
 	
 }

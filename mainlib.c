@@ -2,8 +2,6 @@
 #include "globaldefine.h"
 #include "globaldec.h"
 
-#include "ili_lcd_general.h"
-
  void T0_Init(void);
  void T3_Init(void);
  void pin_Configuration(void);
@@ -22,15 +20,15 @@ int main(void)
 {
 	// Initialisation Manu
 	
-	//pin_Configuration();
-	//T0_Init();
+	pin_Configuration();
+	T0_Init();
 
 	// Initialisation Rolando
 
 	//T2_Init();
-	//T3_Init();
-	//emi=1;
-	//TIM_Cmd(LPC_TIM3,ENABLE);
+	T3_Init();
+	emi=1;
+	TIM_Cmd(LPC_TIM3,ENABLE);
 	//TIM_Cmd(LPC_TIM2,ENABLE);
 
 	// Initialisation Pinpin
@@ -39,8 +37,15 @@ int main(void)
 	interface();
 	touch_init();
 
+	// Initialisation Guillaume
+	
+	initTabUS();
+	modeUS=0;
+	
+	
 	while(1)
 	{
+		gros_pater();
 	}
 	
 }

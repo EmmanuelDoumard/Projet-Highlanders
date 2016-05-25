@@ -27,8 +27,10 @@ extern int etat;
 extern int emi;
 extern int message[5];
 extern int indice;
-extern int recu[10];
 extern int indicerec;
+extern int messagerec[10];
+extern int etatrec;
+extern unsigned long compar;
 
 // Variables Guillaume
 
@@ -36,3 +38,4 @@ extern int echo;
 extern int trigger;
 extern int tableau[250];
 extern int modeUS;
+extern int statEcho;

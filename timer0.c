@@ -62,8 +62,8 @@ void TIMER0_IRQHandler(void){
 		}
 	}
 	
-	if (trigger>600 & modeUS==1) {
-		bouton_appuye();
+	if (trigger>600 & modeUS==5) {
+		modeUS=1;
 	}
 	
 	if (TIMER0_TEMPS % 10 == 0){

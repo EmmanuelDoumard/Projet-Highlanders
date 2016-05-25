@@ -19,7 +19,7 @@ void pin_Configuration(void)
 	PINSEL_CFG_Type bouton2;
   PINSEL_CFG_Type trigger2;
   PINSEL_CFG_Type echo2;
-	
+	NVIC_EnableIRQ(EINT3_IRQn);
 	
 	
 	

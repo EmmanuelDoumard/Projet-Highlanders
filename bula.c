@@ -23,17 +23,17 @@ void interface(void)
 	
 	change_id_am(0,0,1); //ne jamais faire AM=0 !!!
 	
-	LCD_write_english2(74,50,5,Black,White);
-	LCD_write_english2(74,114,6,Black,White);
-	LCD_write_english2(74,178,7,Black,White);
-	LCD_write_english2(74,242,8,Black,White);
-	LCD_write_english2(74,306,9,Black,White);
+	LCD_write_english2_string(74,50,"5",Black,White);
+	LCD_write_english2_string(74,114,"6",Black,White);
+	LCD_write_english2_string(74,178,"7",Black,White);
+	LCD_write_english2_string(74,242,"8",Black,White);
+	LCD_write_english2_string(74,306,"9",Black,White);
 	
-	LCD_write_english2(134,50,0,Black,White);
-	LCD_write_english2(134,114,1,Black,White);
-	LCD_write_english2(134,178,2,Black,White);	
-	LCD_write_english2(134,242,3,Black,White);
-	LCD_write_english2(134,306,4,Black,White);
+	LCD_write_english2_string(134,50,"0",Black,White);
+	LCD_write_english2_string(134,114,"1",Black,White);
+	LCD_write_english2_string(134,178,"2",Black,White);	
+	LCD_write_english2_string(134,242,"3",Black,White);
+	LCD_write_english2_string(134,306,"4",Black,White);
 
 	change_id_am(1,1,0);
 	

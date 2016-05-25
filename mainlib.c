@@ -9,6 +9,7 @@
  void T3_Init(void);
  void pin_Configuration(void);
  void envoi_message(int*);
+ void touch_init(void);
 
 /* With ARM and GHS toolsets, the entry point is main() - this will
    allow the linker to generate wrapper code to setup stacks, allocate
@@ -20,15 +21,27 @@
 
 int main(void)
 {
-	int t[5]={0,1,1,0,1};
+	// Initialisation Manu
+	
 	pin_Configuration();
 	T0_Init();
+
+	// Initialisation Rolando
+
+	T2_Init();
 	T3_Init();
+	emi=1;
+	TIM_Cmd(LPC_TIM3,ENABLE);
+	TIM_Cmd(LPC_TIM2,ENABLE);
+
+	// Initialisation Pinpin
+
 	lcd_Initializtion();	
 	interface();
+	touch_init();
+
 	while(1)
 	{
-		envoi_message(t);
 	}
 	
 }

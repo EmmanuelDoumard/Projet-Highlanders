@@ -40,6 +40,28 @@ void TIMER0_IRQHandler(void){
 	TIMER0_VAR100US++;
 	TIMER0_VAR100USROLAND++;
 	trigger++; // cf ultrason
+	
+	if(emi){ // Fonction Roland
+		if (TIMER0_VAR100USROLAND>44){
+			envoi_message2();
+		}
+		if (TIMER0_VAR100USROLAND>22){
+			envoi_message2();
+		}
+		if (TIMER0_VAR100USROLAND>2){
+			envoi_message2();
+		}
+		if (TIMER0_VAR100USROLAND>4){
+			envoi_message2();
+		}
+		if (TIMER0_VAR100USROLAND>9){
+			envoi_message2();
+		}
+		if (TIMER0_VAR100USROLAND>199){
+			envoi_message2();
+		}
+	}
+	
 	if (trigger>600 & modeUS==1) {
 		bouton_appuye();
 	}

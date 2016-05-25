@@ -12,6 +12,8 @@
 #include "lcd_api.h"
 #include "bula.h"
 #include "ultrason.h"
+#include "infrarouge.h"
+#include "touch_panel.h"
 
 // Déclaration des constantes
 

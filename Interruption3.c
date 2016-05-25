@@ -13,7 +13,10 @@
 
 void EINT3_IRQHandler(void)
 {
-    
+  LCD_fill_rect(125,175,5,59,Black,Black);
+	getpos();
+	GPIO_ClearInt(0, 1<<19);  
+	
     if(((LPC_GPIO0->FIOPIN>>25)&(1<<0))==1) {
 				GPIO_ClearInt(0,25);
         retour_echo();

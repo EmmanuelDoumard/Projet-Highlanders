@@ -18,10 +18,18 @@ int n;  // taille du message à envoyer (max 16)
 
 // Variables Benoît
 
+int pos_x;
+int pos_y;
 
 // Variables Roland
 
 long TIMER0_VAR100USROLAND=0 ; // Spécial Roland sur Timer0
+int etat;
+int emi;
+int message[5];
+int indice;
+int recu[10];
+int indicerec;
 
 // Variables Guillaume
 

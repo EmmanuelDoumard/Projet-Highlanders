@@ -17,10 +17,18 @@ extern int MATCH_VALUE_FQBIP;
 
 // Variables Benoît
 
+extern int pos_x;
+extern int pos_y;
 
 // Variables Roland
 
 extern int TIMER0_VAR100USROLAND; // Spécial Roland
+extern int etat;
+extern int emi;
+extern int message[5];
+extern int indice;
+extern int recu[10];
+extern int indicerec;
 
 // Variables Guillaume
 

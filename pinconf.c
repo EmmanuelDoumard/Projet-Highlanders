@@ -13,6 +13,7 @@ void pin_Configuration(void)
 	
 	// Rolando
 	PINSEL_CFG_Type maconfigRolando;
+	PINSEL_CFG_Type maconfig2Rolando;
 	
 	// Guillaume
 	PINSEL_CFG_Type bouton2;
@@ -22,7 +23,7 @@ void pin_Configuration(void)
 	
 	
 	
-	// configuration des GPIOs
+	// configuration des GPIOs Manu
 	// directement dans les registres
 	//LPC_GPIO0->FIODIR &= ~(1<<0);
 	//LPC_GPIO0 ->FIOMASK = ~(1<<0);
@@ -41,9 +42,6 @@ void pin_Configuration(void)
 	
 	// configuration des GPIOs Rolando
 
-	// en utilisant une fonction 
-	// GPIO_SetDir(0,(1<<10),0);
-	// LPC_GPIO0 ->FIOMASK =~(1<<10);
 	
 	// configuration des pinsel
 	maconfigRolando.Portnum = PINSEL_PORT_0; //on utilise le port 0
@@ -53,7 +51,16 @@ void pin_Configuration(void)
 	maconfigRolando.OpenDrain = PINSEL_PINMODE_NORMAL;
   PINSEL_ConfigPin(&maconfigRolando);
 	
+	maconfig2Rolando.Portnum = PINSEL_PORT_0; //on utilise le port 0
+	maconfig2Rolando.Pinnum =PINSEL_PIN_5;  //sur la broche 5
+	maconfig2Rolando.Funcnum = PINSEL_FUNC_3;  //au mode 3
+	maconfig2Rolando.Pinmode =PINSEL_PINMODE_PULLDOWN;
+	maconfig2Rolando.OpenDrain = PINSEL_PINMODE_NORMAL;
+  PINSEL_ConfigPin(&maconfig2Rolando);
+	
+	
 	// Configuration des GPIOs Guillaume
+	
 	
 	// configuration des pinsel Echo
   echo2.Portnum = PINSEL_PORT_0;

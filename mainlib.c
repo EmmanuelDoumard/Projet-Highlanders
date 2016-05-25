@@ -3,7 +3,6 @@
 #include "globaldec.h"
 
 #include "ili_lcd_general.h"
-#include "terminal.h"
 
  void T0_Init(void);
  void T3_Init(void);

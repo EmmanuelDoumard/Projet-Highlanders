@@ -1,5 +1,5 @@
 #include "ili_lcd_general.h"
-#include "terminal.h"
+
 /*---------------------------- Global variables ------------------------------*/
 
 static void delay (int cnt)
@@ -207,117 +207,6 @@ void lcd_clear(unsigned short Color)    //rempli l'閏ran d'une couleur unie
     }
 }
 
-void lcd_data_bus_test(void)
-{
-    unsigned short temp1;
-    unsigned short temp2;
-
-    if(deviceid == 0x8989)
-    {
-        /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
-        write_reg(0x0011,0x6030 | (0<<3)); // AM=0 hline
-    }
-    else
-    {
-        /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
-        write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
-    }
-
-    /* wirte */
-    lcd_SetCursor(0,0);
-    rw_data_prepare();
-    write_data(0x5555);
-    write_data(0xAAAA);
-
-    /* read */
-    lcd_SetCursor(0,0);
-    if (
-        (deviceid ==0x9325)
-        || (deviceid ==0x9328)
-        || (deviceid ==0x9320)
-    )
-    {
-        temp1 = BGR2RGB( lcd_read_gram(0,0) );
-        temp2 = BGR2RGB( lcd_read_gram(1,0) );
-    }
-    else if( (deviceid ==0x4531) || (deviceid == 0x8989 ) )
-    {
-        temp1 = lcd_read_gram(0,0);
-        temp2 = lcd_read_gram(1,0);
-    }
-
-    if( (temp1 == 0x5555) && (temp2 == 0xAAAA) )
-    {
-        tprintf("data bus test pass!\r\n");
-    }
-    else
-    {
-        tprintf("data bus test error: %04X %04X\r\n",temp1,temp2);
-    }
-}
-
-void lcd_gram_test(void)
-{
-    unsigned short temp;
-    unsigned int test_x;
-    unsigned int test_y;
-
-    tprintf("LCD GRAM test....\n");
-
-    if( deviceid != 0x8989 )
-    {
-        /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
-        write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
-    }
-
-    /* write */
-    temp=0;
-    lcd_SetCursor(0,0);
-    rw_data_prepare();
-    for(test_y=0; test_y<76800; test_y++)
-    {
-        write_data(temp);
-        temp++;
-    }
-
-    /* read */
-    temp=0;
-
-    if (
-        (deviceid ==0x9320)
-        || (deviceid ==0x9325)
-        || (deviceid ==0x9328)
-    )
-    {
-        for(test_y=0; test_y<320; test_y++)
-        {
-            for(test_x=0; test_x<240; test_x++)
-            {
-                if( BGR2RGB( lcd_read_gram(test_x,test_y) ) != temp++)
-                {
-                    tprintf("LCD GRAM ERROR!!\r\n");
-                    return;
-                }
-            }
-        }
-        tprintf("TEST PASS!\r\n");
-    }
-    else if( (deviceid ==0x4531) || (deviceid == 0x8989) )
-    {
-        for(test_y=0; test_y<320; test_y++)
-        {
-            for(test_x=0; test_x<240; test_x++)
-            {
-                if(  lcd_read_gram(test_x,test_y) != temp++)
-                {
-                    tprintf("LCD GRAM ERROR!\r\n");
-                    return;
-                }
-            }
-        }
-        tprintf("TEST PASS!\r\n");
-    }
-}
 
 
 void lcd_Initializtion(void)
@@ -337,13 +226,12 @@ void lcd_Initializtion(void)
         && (deviceid != 0x8989)
     )
     {
-        tprintf("Invalid LCD ID:%08X\r\n",deviceid);
-        tprintf("Please check you hardware and configure.\r\n");
+      
         return;
     }
     else
     {
-        tprintf("LCD Device ID : %04X \r\n",deviceid);
+
     }
 
     if (deviceid==0x9325|| deviceid==0x9328)
@@ -665,16 +553,11 @@ void lcd_Initializtion(void)
         write_reg(0x004f,0);        // 行首址0
         write_reg(0x004e,0);        // 列首址0
         //数据总线测试,用于测试硬件连接是否正常.
-        lcd_data_bus_test();
+
         //清屏
         lcd_clear( Blue );
         //return ;
     }
 
-    //数据总线测试,用于测试硬件连接是否正常.
-    lcd_data_bus_test();
-    //GRAM测试,此测试可以测试LCD控制器内部GRAM.测试通过保证硬件正常
-    lcd_gram_test();
-		//清屏
     lcd_clear( Blue );
 }

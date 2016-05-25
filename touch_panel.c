@@ -90,8 +90,6 @@ void touch_init(void)
     SPI_WriteByte( 1<<7 ); /* 打开中断 */
     TP_CS_HIGH();
 
-    LCD_write_english_string(0,20,"touch init",Green,Blue);
-    _printf("touch init\r\n");
 }
 void getpos(void)
 {
@@ -149,85 +147,3 @@ void getpos(void)
 	
 }
 
-
-void touch_debug(void)
-{
-    uint16_t tmpx[10];
-    uint16_t tmpy[10];
-    uint16_t touch_x,touch_y;
-    unsigned int i;
-
-    LCD_write_english_string(0,100,"          ",White,Blue);
-    LCD_write_english_string(0,40,"touch down",White,Blue);
-
-    // 如果一直按下,就一直读取并显示原始坐标
-    while( TP_DOWN() )
-    {
-        for(i=0; i<10; i++)
-        {
-            TP_CS_LOW();
-            SPI_WriteByte(TOUCH_MSR_X);                  /* read X */
-            tmpx[i] = (SPI_WriteByte(0x00)&0x7F)<<5;     /* read MSB bit[11:8] */
-            tmpx[i] |= SPI_WriteByte(TOUCH_MSR_Y)>>3;    /* read LSB bit[7:0] and prepare read Y */
-            tmpy[i] = (SPI_WriteByte(0x00)&0x7F)<<5;     /* read MSB bit[11:8] */
-            tmpy[i] |= SPI_WriteByte(0x00)>>3;           /* read LSB bit[7:0] */
-            SPI_WriteByte( 1<<7 ); /* 再次打开中断 */
-            TP_CS_HIGH();
-        }
-
-        //去最高值与最低值,再取平均值
-        {
-            uint32_t min_x = 0xFFFF,min_y = 0xFFFF;
-            uint32_t max_x = 0,max_y = 0;
-            uint32_t total_x = 0;
-            uint32_t total_y = 0;
-            unsigned int i;
-
-            for(i=0; i<10; i++)
-            {
-                if( tmpx[i] < min_x )
-                {
-                    min_x = tmpx[i];
-                }
-                if( tmpx[i] > max_x )
-                {
-                    max_x = tmpx[i];
-                }
-                total_x += tmpx[i];
-
-                if( tmpy[i] < min_y )
-                {
-                    min_y = tmpy[i];
-                }
-                if( tmpy[i] > max_y )
-                {
-                    max_y = tmpy[i];
-                }
-                total_y += tmpy[i];
-            }
-            total_x = total_x - min_x - max_x;
-            total_y = total_y - min_y - max_y;
-            touch_x = total_x / 8;
-            touch_y = total_y / 8;
-        }//去最高值与最低值,再取平均值
-
-        //display
-        {
-            char x_str[20];
-            char y_str[20];
-            sprintf(x_str, "%d", touch_x);
-            sprintf(y_str, "%d", touch_y);
-            LCD_write_english_string(0,60,x_str,Cyan,Blue);
-            LCD_write_english_string(0,80,y_str,Cyan,Blue);
-            _printf("\rtouch down!");
-            _printf("X:%04d Y:%04d         ",touch_x,touch_y);
-        }
-    }// 如果一直按下,就一直读取并显示原始坐标
-
-    // touch up
-    LCD_write_english_string(0,40,"           ",White,Blue);
-    LCD_write_english_string(0,100,"touch up  ",White,Blue);
-    _printf("\rtouch up!                        ");
-}
-
-/****************************EOF*************************************/

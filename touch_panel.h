@@ -28,7 +28,7 @@ s  A2-A0 MODE SER/DFR PD1-PD0
 uint8_t SPI_WriteByte(uint8_t data);
 void touch_init(void);
 void getpos(void);
-void touch_debug(void);
+
 
 
 #endif

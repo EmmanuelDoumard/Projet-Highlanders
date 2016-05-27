@@ -14,7 +14,7 @@ void T0_Init(void)
 	
 	// Timer0  Initialization
 	Timer_Config_Structure.PrescaleOption = TIM_PRESCALE_USVAL;						// Timer en Mode us
-	Timer_Config_Structure.PrescaleValue	= TIMER0_TIME_STEP;							// TC incrementé de 1 chaque 10us
+	Timer_Config_Structure.PrescaleValue	= TIMER0_TIME_STEP;							// TC incrementé de 1 chaque 1us
 
 	TIM_Init(LPC_TIM0, TIM_TIMER_MODE,&Timer_Config_Structure);
 	
@@ -34,11 +34,16 @@ void T0_Init(void)
 	NVIC_EnableIRQ(TIMER0_IRQn);																					// Autoriser interruption
 }
 
-/* Code de l'interruption. Est déclenchée si TC = MR, c'est-à-dire toutes les 1MS pour timer 0 */
+/* Code de l'interruption. Est déclenchée si TC = MR, c'est-à-dire toutes les 100µs pour timer 0 */
 void TIMER0_IRQHandler(void){
 	TIMER0_TEMPS++;
 	TIMER0_VAR100US++;
 	TIMER0_VAR100USROLAND++;
+	trigger++; // cf ultrason
+	
+	if (TIMER0_TEMPS % 10000){
+		var_F5++;
+	}
 	
 	if(emi){ // Fonction Roland
 		if (TIMER0_VAR100USROLAND>44){
@@ -61,6 +66,13 @@ void TIMER0_IRQHandler(void){
 		}
 	}
 	
+	if (trigger>600 & modeUS==5) {
+		modeUS=1;
+	}
+	
+	if (TIMER0_TEMPS % 10 == 0){
+		echo++; // cf ultrason
+	}
 	
 	// Gestion du bip
 	if (TIMER0_TEMPS<150000){
@@ -90,6 +102,7 @@ void TIMER0_IRQHandler(void){
 			}
 		}
 	}
+	
 TIM_ClearIntPending(LPC_TIM0,0);
 LPC_TIM0->IR|=(1<<0); //Acquittement
 }

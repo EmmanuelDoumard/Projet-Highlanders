@@ -15,6 +15,8 @@ extern int NB_BIP;
 extern int MATCH_BIP;
 extern int MATCH_VALUE_FQBIP;
 
+extern int I2C0_clockrate; // clockrate de I2C0...???
+
 // Variables Benoît
 
 extern int pos_x;

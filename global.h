@@ -35,7 +35,7 @@ extern int emi;
 extern int message[5];
 extern int indice;
 extern int indicerec;
-extern int messagerec[10];
+extern int messagerec[5];
 extern int etatrec;
 extern unsigned long compar;
 

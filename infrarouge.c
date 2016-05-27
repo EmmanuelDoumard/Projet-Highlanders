@@ -25,7 +25,7 @@ void T3_Init(void)
 	Timer_MatchConfig_Structure.StopOnMatch  = FALSE;						//le timer continue malgré le match				
 	Timer_MatchConfig_Structure.ExtMatchOutputType = TIM_EXTMATCH_TOGGLE; 		//configure en mode toggle
 	
-	Timer_MatchConfig_Structure.MatchValue = 40;	 // configure la valeur de comparaison à celle nécessaire pour avoir un match toutes les ms
+	Timer_MatchConfig_Structure.MatchValue = 41;	 // configure la valeur de comparaison à celle nécessaire pour avoir un match toutes les ms
 	TIM_ConfigMatch(LPC_TIM3,&Timer_MatchConfig_Structure);				//selectionne le timer 0 , avec les options dans la configuration établie précédemment			
 																
 
@@ -38,7 +38,7 @@ void T2_Init(void){
 	TIM_TIMERCFG_Type		Timer_Config_Structure;
 	
 	Timer_Config_Structure.PrescaleOption = TIM_PRESCALE_USVAL;				
-	Timer_Config_Structure.PrescaleValue	= 1;	
+	Timer_Config_Structure.PrescaleValue	= 0;	
 	
 	TIM_Init(LPC_TIM2, TIM_TIMER_MODE,&Timer_Config_Structure);
 	
@@ -97,7 +97,7 @@ void envoi_message(int *message){
 }
 
 void envoi_message2(void){
-	/*interruption pour augmenter i*/
+
 		if (TIMER0_VAR100USROLAND>44 && etat==0){
 			TIMER0_VAR100USROLAND=0;
 			TIM_Cmd(LPC_TIM3,DISABLE);
@@ -162,20 +162,23 @@ void envoi_message2(void){
 			etat=7;
 		}
 		if(TIMER0_VAR100USROLAND>199&& etat==7){
+			etat=0;
 			emi=0;
+			indice=0;
+			TIMER0_VAR100USROLAND=0;
 		}
 	;
 }
 
 
 void TIMER2_IRQHandler(void){
-		compar=LPC_TIM2->CR1;
-	if(indicerec==9){
+	LCD_fill_reg(100,200,100,200,Yellow);
+	if(indicerec==4){
 		etatrec=0;
 	}
 	switch (etatrec){
 		case 0:
-			if((compar-LPC_TIM2->CR1) > 8800 & (compar-LPC_TIM2->CR1) < 9200){
+			if((LPC_TIM2->CR1-compar) > 8800 & (LPC_TIM2->CR1-compar) < 9200){
 				etatrec=1;
 			}
 			else{
@@ -183,7 +186,7 @@ void TIMER2_IRQHandler(void){
 			}
 		break;
 		case 1:
-			if((compar-LPC_TIM2->CR1) > 4300 & (compar-LPC_TIM2->CR1) < 4700){
+			if((LPC_TIM2->CR1-compar) > 4300 & (LPC_TIM2->CR1-compar) < 4700){
 				etatrec=2;
 				indicerec=0;
 			}
@@ -192,7 +195,7 @@ void TIMER2_IRQHandler(void){
 			}
 		break;
 		case 2:
-			if((compar-LPC_TIM2->CR1) > 580 & (compar-LPC_TIM2->CR1) < 620){
+			if((LPC_TIM2->CR1-compar) > 580 & (LPC_TIM2->CR1-compar) < 620){
 				etatrec=3;
 			}
 			else{
@@ -200,14 +203,16 @@ void TIMER2_IRQHandler(void){
 			}
 		break;
 		case 3:
-			if((compar-LPC_TIM2->CR1) > 950 & (compar-LPC_TIM2->CR1) < 1050){
+			if((LPC_TIM2->CR1-compar) > 950 & (LPC_TIM2->CR1-compar) < 1050){
 				etatrec=2;
 				messagerec[indicerec]=1;
+				indicerec+=1;
 			}
 			else{
-				if((compar-LPC_TIM2->CR1) > 1900 & (compar-LPC_TIM2->CR1) < 2100){
+				if((LPC_TIM2->CR1-compar) > 1900 & (LPC_TIM2->CR1-compar) < 2100){
 				etatrec=2;
 				messagerec[indicerec]=0;
+				indicerec+=1;
 				}
 				else{
 					etatrec=0;

@@ -3,6 +3,7 @@
 #include "globaldec.h"
 
  void T0_Init(void);
+ void T1_Init(void);
  void T3_Init(void);
  void pin_Configuration(void);
  void envoi_message(int*);
@@ -41,6 +42,7 @@ int main(void)
 	
 	initTabUS();
 	modeUS=0;
+	T1_Init();
 	
 	
 	while(1)

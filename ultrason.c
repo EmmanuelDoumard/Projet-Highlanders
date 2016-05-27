@@ -38,9 +38,9 @@ void retour_echo(void) {
 	while (i<50 & tableau[i]==0) {i++;}
 	if (i<250) {
 		tableau[i]=statEcho;
-		modeUS = 5;
+		modeUS = 6;
 }
-else {modeUS = 6;}
+else {modeUS = 7;}
 }	
 
 
@@ -51,18 +51,20 @@ void gros_pater(void) {
 					debut_signal();
 					break;
 				case 2 : // Ici, c'est l'attente que quelques µs le temps que le signal trigger soit envoyé
-					if(trigger>3) {
+					if(trigger>1) {
 						fin_signal();
 					}
 					break;
 				case 3 : //Fin de l'envoi du signal, on fait keud en attendant le reour de echo
 					break;
-				case 4 : //Ici, c'est le remplissage du tableau après que l'echo soit entré
+				case 4 : //On attend la redescente de echo
+					break;
+				case 5 : //Ici, c'est le remplissage du tableau après que l'echo soit entré
 					retour_echo();
 					break;
-				case 5 : //On est en attente après avoir rempli la tableau, le temps que trigger aie fait 60ms
+				case 6 : //On est en attente après avoir rempli la tableau, le temps que trigger aie fait 60ms
 					break;
-				case 6 : //Si on est ici, c'est que le tableau est rempli
+				case 7 : //Si on est ici, c'est que le tableau est rempli
 					comparaison();
 					break;
 				default : //Ici, c'est une erreur

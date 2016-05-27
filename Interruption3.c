@@ -16,14 +16,18 @@
 void EINT3_IRQHandler(void)
 {
     
-    if((((LPC_GPIOINT->IO0IntStatR)>>25)& 0x1)==1) { //C'est l'évent qui se déclenche pour l'echo (car l'echo peut être activé pendant que le bouton est appuyé, pas l'inverse)
+    if((((LPC_GPIOINT->IO0IntStatR)>>25)& 0x1)==1) { //C'est l'évent qui se déclenche pour l'echo montant(car l'echo peut être activé pendant que le bouton est appuyé, pas l'inverse)
 			GPIO_ClearInt(0,(1<<25)); //Aquittement
-			statEcho = echo;
+			echo = 0;
 			modeUS = 4; //On a reçu le signal, on peut passer à la suite
+			GPIO_IntCmd(0,(1<<25),1); // On attendra la redescente
     } else if((((LPC_GPIOINT->IO0IntStatR)>>26)& 0x1)==1) { //event quand on appuie sur le bouton
 			GPIO_ClearInt(0,(1<<26)); // aquittement
 			initTabUS();
 			modeUS = 1; //On commence la série de flags
-			
-    }
+    } else if((((LPC_GPIOINT->IO0IntStatF)>>25)& 0x1)==1) { //retour echo
+			GPIO_ClearInt(0,(1<<25)); // Aquittement
+			statEcho = echo;
+			modeUS = 5;
+		}
 	}

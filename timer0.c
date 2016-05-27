@@ -39,7 +39,6 @@ void TIMER0_IRQHandler(void){
 	TIMER0_TEMPS++;
 	TIMER0_VAR100US++;
 	TIMER0_VAR100USROLAND++;
-	trigger++; // cf ultrason
 	
 	if(emi){ // Fonction Roland
 		if (TIMER0_VAR100USROLAND>44){
@@ -62,13 +61,6 @@ void TIMER0_IRQHandler(void){
 		}
 	}
 	
-	if (trigger>600 & modeUS==5) {
-		modeUS=1;
-	}
-	
-	if (TIMER0_TEMPS % 10 == 0){
-		echo++; // cf ultrason
-	}
 	
 	// Gestion du bip
 	if (TIMER0_TEMPS<150000){

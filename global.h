@@ -41,3 +41,5 @@ extern int trigger;
 extern int tableau[250];
 extern int modeUS;
 extern int statEcho;
+extern int validation[250];
+extern int root;

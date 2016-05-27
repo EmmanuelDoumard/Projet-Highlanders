@@ -10,12 +10,12 @@
 s  A2-A0 MODE SER/DFR PD1-PD0
 */
 
-#define TOUCH_MSR_Y  0x90   //?X????? addr:1
-#define TOUCH_MSR_X  0xD0   //?Y????? addr:3
-// ??????: (POWERAVR ?? LPC1768???)
+#define TOUCH_MSR_Y  0x90   //读X轴坐标指令 addr:1
+#define TOUCH_MSR_X  0xD0   //读Y轴坐标指令 addr:3
+// 触摸硬件连接: (POWERAVR 路虎 LPC1768开发板)
 // SPI    <==> SSP1
 // TP_CS  <==> P0.6  GPIO
-// TP_INT <==> P0.19 ?? (EINT3)
+// TP_INT <==> P0.19 中断 (EINT3)
 
                         /*P0.6 == TOUCH_CS# LOW*/
 #define TP_CS_LOW()     GPIO_SetDir (0,(1<<6),1);   \

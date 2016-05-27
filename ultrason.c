@@ -5,80 +5,37 @@
 
 
 /*  */
-void initTabUS(void) {
-	int i;
-	for(i=0;i<250;i++) {
-		tableau[i] = 0; //C'est ici qu'on met le tableau à 0
-	}
+void trigger_signal(void) {
+	GPIO_SetValue(0, (1<<24)); //Envoi d'un signal trigger
+	while (echo<3) {}
+	GPIO_ClearValue(0, (1<<24));
 }
 
-void debut_signal(void) {
-	trigger=0; //On initialise le timer, pour savoir quand le relancer
-	GPIO_IntCmd(0,(1<<25),0); //on lance le mode interruption de l'echo
-	GPIO_SetValue(0, (1<<24)); //on met la sortie du trigger sur ON
-	modeUS = 2; //la tâche a été effectuée, on passe à l'étape 2
-}
-
-void fin_signal(void) {
-	echo=0; //On réinitialise l'echo. La prochaine qu'on le prendra, ce sera le timer du temps écoulé depuis la fin du trigger
-	GPIO_ClearValue(0, (1<<24)); //on éteint le trigger. Le signal est envoyé, rien a faire jusqu'a ce que modeUS passe à 4, signal que le retour de l'echo s'est effectué
-	modeUS=3;
+void bouton_appuye(void) {
+	trigger=0;
+	echo=0;
+	GPIO_IntCmd(0,(1<<25),1);
+	trigger_signal();
 }
 
 void comparaison(void) {
-	int i=0;
 	//code de comparaison avec un autre tableau
 	modeUS=0; //fin du mode US à venir
-	if (root==1) {
-		while(i<250) {
-			validation[i]=tableau[i];
-			i++;
-		}
-		root = 1;
-	} else {
-		//ouverture(); code de roland pour l'ouverture
-	}
+	//ouverture(); code de roland pour l'ouverture
+	
+	
+	GPIO_ClearValue(0, (1<<24));
 	GPIO_IntCmd(0,(1<<26),0);
-	initTabUS();
 }
+
+
 
 void retour_echo(void) {
 	int i;
+	int j=echo;
 	while (i<250 & tableau[i]==0) {i++;}
 	if (i<250) {
-		tableau[i]=statEcho;
-		modeUS = 6;
+		tableau[i]=j;
 }
-else {modeUS = 7;}
+else {comparaison();}
 }	
-
-
-void gros_pater(void) {
-	if(modeUS!=0) { //Je ne sais pas si ça optimise, mais on va pas faire tout les tests si modeUS est simplement égal à 0
-			switch(modeUS) { //On rentre dans les différentes étapes de ma boucle
-				case 1 : //Premier cas : le bouton a été appuyé, on entame le lancement du signal. Ou alors on relance le signal si trigger est à plus de 60ms et que la condition 3 est faite
-					initTabUS();
-					debut_signal();
-					break;
-				case 2 : // Ici, c'est l'attente que quelques µs le temps que le signal trigger soit envoyé
-					if(trigger>1) {
-						fin_signal();
-					}
-					break;
-				case 3 : //Fin de l'envoi du signal, on fait keud en attendant le reour de echo
-					break;
-				case 4 : //On attend la redescente de echo
-					break;
-				case 5 : //Ici, c'est le remplissage du tableau après que l'echo soit entré
-					retour_echo();
-					break;
-				case 6 : //On est en attente après avoir rempli la tableau, le temps que trigger aie fait 60ms
-					break;
-				case 7 : //Si on est ici, c'est que le tableau est rempli
-					comparaison();
-					break;
-				default : //Ici, c'est une erreur
-					break;
-			}
-		}
-	}

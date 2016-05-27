@@ -19,7 +19,7 @@ void pin_Configuration(void)
 	PINSEL_CFG_Type bouton2;
   PINSEL_CFG_Type trigger2;
   PINSEL_CFG_Type echo2;
-	NVIC_EnableIRQ(EINT3_IRQn);
+	
 	
 	
 	
@@ -86,9 +86,9 @@ void pin_Configuration(void)
   bouton2.OpenDrain = PINSEL_PINMODE_NORMAL;
   PINSEL_ConfigPin(&bouton2);
 	
-	GPIO_SetDir(0,(1<<24),1);
-	GPIO_SetDir(0,(1<<25),0);
-	GPIO_SetDir(0,(1<<26),0);
+	LPC_GPIO0->FIODIR=LPC_GPIO0->FIODIR|(1<<25);
+	LPC_GPIO0->FIODIR=LPC_GPIO0->FIODIR|(1<<26);
+	LPC_GPIO0->FIODIR=LPC_GPIO0->FIODIR&~(1<<24);
    
   GPIO_IntCmd(0,(1<<26),0);
 	

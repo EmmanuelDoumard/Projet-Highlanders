@@ -5,6 +5,10 @@
 
 extern char bufferTX[64]; // buffer pour l'affichage sur uart0
 extern int n;
+extern char code[5];
+extern int root;
+
+
 
 // Variables Manu
 
@@ -15,12 +19,13 @@ extern int NB_BIP;
 extern int MATCH_BIP;
 extern int MATCH_VALUE_FQBIP;
 
-extern int I2C0_clockrate; // clockrate de I2C0...???
-
 // Variables Benoît
 
 extern int pos_x;
 extern int pos_y;
+extern int current;
+extern int var_F5;
+extern int old_F5;
 
 // Variables Roland
 
@@ -29,10 +34,8 @@ extern int etat;
 extern int emi;
 extern int message[5];
 extern int indice;
+extern int recu[10];
 extern int indicerec;
-extern int messagerec[10];
-extern int etatrec;
-extern unsigned long compar;
 
 // Variables Guillaume
 
@@ -40,6 +43,3 @@ extern int echo;
 extern int trigger;
 extern int tableau[250];
 extern int modeUS;
-extern int statEcho;
-extern int validation[250];
-extern int root;

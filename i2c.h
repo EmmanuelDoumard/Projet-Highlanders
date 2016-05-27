@@ -1,0 +1,1 @@
+void I2C0_Init(void);

@@ -1,3 +1,4 @@
+
 #include "ili_lcd_general.h"
 #include "lcd_api.h"
 
@@ -5,7 +6,7 @@
 #define LCD_BULA
 
 
-#define Fond 0xFFFF
+#define Fond 0x9999
 #include <stdint.h>
 
 void LCD_fill_reg(uint16_t x1,uint16_t x2,uint16_t y1,uint16_t y2,unsigned int color);//remplis la region (x1,y1)*(x2,y2) de couleur
@@ -15,5 +16,7 @@ void interface(void);
 void change_id_am(uint16_t id1, uint16_t id0, uint16_t am);
 void interface(void);
 void getpos(void);
-void convert();
+void convert(void);
+void input(void);
+void tracer_code(void);
 #endif // LCD_BULA

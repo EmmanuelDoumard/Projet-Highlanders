@@ -9,3 +9,5 @@ void initTabUS(void);
 void debut_signal(void);
 void fin_signal(void);
 void gros_pater(void);
+
+int comparaison_tableau(void);

@@ -2,8 +2,9 @@
 #include "globaldefine.h"
 #include "globaldec.h"
 
+#include "ili_lcd_general.h"
+
  void T0_Init(void);
- void T1_Init(void);
  void T3_Init(void);
  void pin_Configuration(void);
  void envoi_message(int*);
@@ -28,7 +29,7 @@ int main(void)
 
 	//T2_Init();
 	T3_Init();
-	emi=1;
+	//emi=1;
 	TIM_Cmd(LPC_TIM3,ENABLE);
 	//TIM_Cmd(LPC_TIM2,ENABLE);
 
@@ -38,16 +39,13 @@ int main(void)
 	interface();
 	touch_init();
 
-	// Initialisation Guillaume
-	
-	initTabUS();
-	modeUS=0;
-	T1_Init();
-	
-	
 	while(1)
 	{
-		gros_pater();
+		if(var_F5>old_F5)
+		{
+			old_F5=var_F5;
+			rafraichissement();
+		}
 	}
 	
 }

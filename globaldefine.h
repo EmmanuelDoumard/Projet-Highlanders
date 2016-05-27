@@ -7,7 +7,6 @@
 #include "lpc17xx_pinsel.h"
 #include "lpc17xx_timer.h"
 #include "lpc17xx_uart.h"
-#include "lpc17xx_i2c.h"
 
 #include "ili_lcd_general.h"
 #include "lcd_api.h"

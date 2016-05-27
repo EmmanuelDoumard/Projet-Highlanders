@@ -5,6 +5,8 @@
 
 char bufferTX[16]; // buffer pour l'affichage sur uart0
 int n;  // taille du message à envoyer (max 16)
+char code[5]="BULA";
+int root=0;
 
 // Variables Manu
 
@@ -22,8 +24,11 @@ int I2C0_clockrate=100000; // 100 000 Hz (100kbpm ?) pour la clockrate de I2C0..
 
 // Variables Benoît
 
-int pos_x;
-int pos_y;
+int pos_x=0;
+int pos_y=0;
+int current=-1;
+int var_F5=0;
+int old_F5=0;
 
 // Variables Roland
 
@@ -46,4 +51,3 @@ int tableau[250];
 int modeUS;
 int statEcho;
 int validation[250];
-int root;

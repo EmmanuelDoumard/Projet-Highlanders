@@ -45,3 +45,5 @@ int trigger=0;
 int tableau[250];
 int modeUS;
 int statEcho;
+int validation[250];
+int root;

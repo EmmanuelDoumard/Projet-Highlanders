@@ -90,6 +90,6 @@ void pin_Configuration(void)
 	GPIO_SetDir(0,(1<<25),0);
 	GPIO_SetDir(0,(1<<26),0);
    
-  GPIO_IntCmd(0,(1<<26),0);
+  GPIO_IntCmd(0,(1<<26),1);
 	
 }

@@ -13,10 +13,10 @@ void I2C0_Init(void){
 	I2C_IntCmd(LPC_I2C0,ENABLE);
 	
 	
-	I2C_Start (LPC_I2C_TypeDef *I2Cx);
+	I2C_Start (LPC_I2C0);
 	
 	// Transmettre les infos
 	
-	I2C_Stop (LPC_I2C_TypeDef *I2Cx);
+	I2C_Stop (LPC_I2C0);
 	LPC_DeInit(LPC_I2C0);
 }

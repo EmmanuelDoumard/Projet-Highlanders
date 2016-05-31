@@ -3,7 +3,6 @@
 #include "globaldec.h"
 
  void T0_Init(void);
- void T1_Init(void);
  void T3_Init(void);
  void pin_Configuration(void);
  void envoi_message(int*);
@@ -26,11 +25,9 @@ int main(void)
 
 	// Initialisation Rolando
 
-	//T2_Init();
+	T2_Init();
 	T3_Init();
-	emi=1;
-	TIM_Cmd(LPC_TIM3,ENABLE);
-	//TIM_Cmd(LPC_TIM2,ENABLE);
+	TIM_Cmd(LPC_TIM2,ENABLE);
 
 	// Initialisation Pinpin
 
@@ -40,16 +37,51 @@ int main(void)
 
 	// Initialisation Guillaume
 	
+	pin_Configuration();
 	initTabUS();
-	modeUS=0;
 	T1_Init();
+	modeUS=0;
 	
 	
 	while(1)
 	{
 		gros_pater();
-	}
+		
+		
 	
+		if(bula==1){
+			bula=0;
+			pos_x=0;
+			pos_y=0;
+			getpos();
+			convert();
+			input();
+		}
+		
+		
+		if(TIM_GetIntStatus(LPC_TIM0,TIM_MR0_INT)==1){
+			if(emi){ // Fonction Roland
+				if (TIMER0_VAR100USROLAND>44){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>22){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>2){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>4){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>9){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>199){
+					envoi_message2();
+				}
+			}
+		}
+	}
 }
 
 

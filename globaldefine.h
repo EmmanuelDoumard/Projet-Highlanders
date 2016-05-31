@@ -15,6 +15,7 @@
 #include "ultrason.h"
 #include "infrarouge.h"
 #include "touch_panel.h"
+#include "timer0.h"
 
 // Déclaration des constantes
 
@@ -22,3 +23,4 @@
 #define TIMER0_MATCH_VALUE_100us  100 // Match value pour avoir 100 us
 #define MATCH_VALUE1 1000 // A utiliser dans l'interruption, correspond a 1
 #define DUREE_BIP 1000      // Durée d'un bip (à multiplier par 100us) => 0.1s
+#define MATCH_BIP_INIT 10000 // Intervalle de temps initial entre deux bips

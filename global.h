@@ -7,6 +7,7 @@ extern char bufferTX[64]; // buffer pour l'affichage sur uart0
 extern int n;
 extern char code[5];
 extern int root;
+extern int etalon;
 
 // Variables Manu
 
@@ -16,6 +17,8 @@ extern int BIP;                // "Booléen" qui indique si le bip est actif
 extern int NB_BIP;
 extern int MATCH_BIP;
 extern int MATCH_VALUE_FQBIP;
+extern int ENABLE_BIP;
+extern int BIP_DECOMPTE;
 
 extern int I2C0_clockrate; // clockrate de I2C0...???
 
@@ -26,6 +29,7 @@ extern int pos_y;
 extern int current;
 extern int var_F5;
 extern int old_F5;
+extern int bula;
 
 // Variables Roland
 

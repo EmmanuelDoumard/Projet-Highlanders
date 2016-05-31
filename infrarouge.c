@@ -32,17 +32,16 @@ void T3_Init(void)
 	
 }
 
-
+/*on initialise le timer 2 en mode capture, pour lui faire mesurer toutes les µs et on gère la reception par interruption*/
 void T2_Init(void){
 	TIM_CAPTURECFG_Type maconfig;
 	TIM_TIMERCFG_Type		Timer_Config_Structure;
 	
 	Timer_Config_Structure.PrescaleOption = TIM_PRESCALE_USVAL;				
-	Timer_Config_Structure.PrescaleValue	= 0;	
+	Timer_Config_Structure.PrescaleValue	= 1;	
 	
 	TIM_Init(LPC_TIM2, TIM_TIMER_MODE,&Timer_Config_Structure);
 	
-	//initialisation du timer en mode capture sur le port 1//
 	maconfig.CaptureChannel=1;
 	maconfig.RisingEdge=ENABLE;
 	maconfig.FallingEdge=ENABLE;
@@ -50,52 +49,8 @@ void T2_Init(void){
 	NVIC_EnableIRQ(TIMER2_IRQn);
 	TIM_ConfigCapture(LPC_TIM2,&maconfig);
 }
-void envoi_message(int *message){
-	int indice=0;
-	TIMER0_VAR100USROLAND=0;
-	/*interruption pour augmenter i*/
-		TIM_Cmd(LPC_TIM3,ENABLE);
-		while (TIMER0_VAR100USROLAND<=44){
-		}
-		TIMER0_VAR100USROLAND=0;
-		TIM_Cmd(LPC_TIM3,DISABLE);
-		while(TIMER0_VAR100USROLAND<=22){
-		}
-		//on envoie les bits 1 à 1 du message
-		while (indice <=4){
-			TIMER0_VAR100USROLAND=0;
-			if (message[indice]==1){
-				TIM_Cmd(LPC_TIM3,ENABLE);
-				while(TIMER0_VAR100USROLAND<=2){
-				}
-				TIMER0_VAR100USROLAND=0;
-				TIM_Cmd(LPC_TIM3,DISABLE);
-				while(TIMER0_VAR100USROLAND<=4){
-				}
-			}
-			else {
-				TIMER0_VAR100USROLAND=0;
-				TIM_Cmd(LPC_TIM3,ENABLE);
-				while(TIMER0_VAR100USROLAND<=2){
-				}
-				TIMER0_VAR100USROLAND=0;
-				TIM_Cmd(LPC_TIM3,DISABLE);
-				while(TIMER0_VAR100USROLAND<=9){
-				}
-			}
-			indice++;
-		}
-		TIM_Cmd(LPC_TIM3,ENABLE);
-		while (TIMER0_VAR100USROLAND<=2){
-		}
-		TIMER0_VAR100USROLAND=0;
-		TIM_Cmd(LPC_TIM3,DISABLE);
-		while(TIMER0_VAR100USROLAND<=199){
-		}
-		TIMER0_VAR100USROLAND=0;
-;
-}
 
+/*envoi du message stocké dans la variable globale message, on gère tout cela grâce a l'interruption sur le timer 0 toutes les 100µs pour gérer les différentes temps demandés*/
 void envoi_message2(void){
 
 		if (TIMER0_VAR100USROLAND>44 && etat==0){
@@ -170,9 +125,9 @@ void envoi_message2(void){
 	;
 }
 
-
+/*gestion de l'interruption de capture du timer 2 en matchant la valeur actuelle du compteur - celle correspondant au dernier front, en ajoutant une certaine marge car l'émission n'est pas infiniment précise*/
 void TIMER2_IRQHandler(void){
-	LCD_fill_reg(100,200,100,200,Yellow);
+
 	if(indicerec==4){
 		etatrec=0;
 	}
@@ -195,7 +150,7 @@ void TIMER2_IRQHandler(void){
 			}
 		break;
 		case 2:
-			if((LPC_TIM2->CR1-compar) > 580 & (LPC_TIM2->CR1-compar) < 620){
+			if((LPC_TIM2->CR1-compar) > 560 & (LPC_TIM2->CR1-compar) < 640){
 				etatrec=3;
 			}
 			else{
@@ -225,4 +180,15 @@ void TIMER2_IRQHandler(void){
 	TIM_ClearIntPending(LPC_TIM2,TIM_CR1_INT);
 }
 
-
+/*procédure d'envoi de message passé en paramètre, pour cela on recopie le tableau paramètre dans la variable globale message, puis on lance le timer, on reset la variable qui mesure les 100µs et on passe la variable d'emission à 1*/
+void envoyermsg(int m[5]){
+	message[0]=m[0];
+	message[1]=m[1];
+	message[2]=m[2];
+	message[3]=m[3];
+	message[4]=m[4];
+	TIM_Cmd(LPC_TIM3,ENABLE);
+	TIMER0_VAR100USROLAND=0;
+	emi=1;
+	etat=0;
+}

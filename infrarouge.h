@@ -6,3 +6,4 @@
 	void T0_Init(void);
 	void envoi_message2(void);
 	void T2_Init(void);
+	void envoyermsg(int[5]);

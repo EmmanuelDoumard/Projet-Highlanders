@@ -7,7 +7,7 @@
 /*  */
 void initTabUS(void) {
 	int i;
-	for(i=0;i<250;i++) {
+	for(i=0;i<100;i++) {
 		tableau[i] = 0; //C'est ici qu'on met le tableau à 0
 	}
 }
@@ -29,24 +29,24 @@ void comparaison(void) {
 	int i=0;
 	modeUS=0; //fin du mode US à venir
 	if (root==1) {
-		while(i<250) {
+		while(i<100) {
 			validation[i]=tableau[i];
 			i++;
 		}
 		root = 1;
 	} else {
-		if(comparaison_tableau()==1) {
+		//if(comparaison_tableau()==1) {
 			//ouverture(); code de roland pour l'ouverture
-		}
+		//}
 	}
-	GPIO_IntCmd(0,(1<<26),0);
+	GPIO_IntCmd(0,(1<<26),1);
 	initTabUS();
 }
 
 void retour_echo(void) {
 	int i;
-	while (i<250 & tableau[i]==0) {i++;}
-	if (i<250) {
+	while (i<100 & tableau[i]!=0) {i++;}
+	if (i<100) {
 		tableau[i]=statEcho;
 		modeUS = 6;
 }
@@ -62,7 +62,7 @@ void gros_pater(void) {
 					debut_signal();
 					break;
 				case 2 : // Ici, c'est l'attente que quelques µs le temps que le signal trigger soit envoyé
-					if(trigger>1) {
+					if(trigger>10) {
 						fin_signal();
 					}
 					break;
@@ -91,14 +91,14 @@ void gros_pater(void) {
 		float ec2=0;
 		int i;
 		int val=1;
-		for(i=0;i<250;i++) {
+		for(i=0;i<100;i++) {
 			moy=moy+tableau[i];
 			moy2=moy2+validation[i];
 		}
 		if((moy<(moy2*0.9)) || (moy>(moy2*1.1))) { //ecart de 10%
 			val=0;
 		}
-		for(i=0;i<250;i++) {
+		for(i=0;i<100;i++) {
 			ec1=ec1+((moy-tableau[i])*(moy-tableau[i]));
 			ec2=ec2+((moy2-validation[i])*(moy2-validation[i]));
 		}
@@ -109,4 +109,3 @@ void gros_pater(void) {
 		return val;
 		
 	}
-	

@@ -42,6 +42,5 @@ void TIMER1_IRQHandler(void){
 		modeUS=1;
 	}
 	
-TIM_ClearIntPending(LPC_TIM1,0);
-LPC_TIM1->IR|=(1<<0); //Acquittement
+TIM_ClearIntPending(LPC_TIM1,TIM_MR0_INT);
 }

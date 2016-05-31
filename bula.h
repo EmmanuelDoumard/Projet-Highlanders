@@ -19,4 +19,5 @@ void getpos(void);
 void convert(void);
 void input(void);
 void tracer_code(void);
+void rafraichissement(void);
 #endif // LCD_BULA

@@ -1,5 +1,5 @@
 #include "ili_lcd_general.h"
-#include "terminal.h"
+
 /*---------------------------- Global variables ------------------------------*/
 
 static void delay (int cnt)
@@ -209,8 +209,7 @@ void lcd_clear(unsigned short Color)    //rempli l'écran d'une couleur unie
 
 void lcd_data_bus_test(void)
 {
-    unsigned short temp1;
-    unsigned short temp2;
+    
 
     if(deviceid == 0x8989)
     {
@@ -231,20 +230,6 @@ void lcd_data_bus_test(void)
 
     /* read */
     lcd_SetCursor(0,0);
-    if (
-        (deviceid ==0x9325)
-        || (deviceid ==0x9328)
-        || (deviceid ==0x9320)
-    )
-    {
-        temp1 = BGR2RGB( lcd_read_gram(0,0) );
-        temp2 = BGR2RGB( lcd_read_gram(1,0) );
-    }
-    else if( (deviceid ==0x4531) || (deviceid == 0x8989 ) )
-    {
-        temp1 = lcd_read_gram(0,0);
-        temp2 = lcd_read_gram(1,0);
-    }
 
 
 

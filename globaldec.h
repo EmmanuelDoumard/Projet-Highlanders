@@ -7,6 +7,7 @@ char bufferTX[16]; // buffer pour l'affichage sur uart0
 int n;  // taille du message à envoyer (max 16)
 char code[5]="BULA";
 int root=0;
+int etalon=0;
 
 // Variables Manu
 
@@ -17,6 +18,8 @@ int MATCH_BIP=10000; // Intervalle de temps (en *100us) entre deux bips
 int MATCH_VALUE_FQBIP=5;
 int BIP=0;		// "Booléen" qui indique si le bip est actif
 int NB_BIP=1; // Incrémenteur du nombre de bips envoyés
+int ENABLE_BIP=0;
+int BIP_DECOMPTE=0;
 
 //i2c
 
@@ -29,6 +32,7 @@ int pos_y=0;
 int current=-1;
 int var_F5=0;
 int old_F5=0;
+int bula=0;
 
 // Variables Roland
 

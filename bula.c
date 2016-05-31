@@ -3,6 +3,11 @@
 #include "bula.h"
 extern const char english[][16];
 
+
+int m[5]={0,1,0,1,0};
+
+
+
 void interface(void)
 {
 	lcd_clear(Fond);
@@ -57,13 +62,18 @@ void rafraichissement(void)
 }
 
 
-void validation(void)
+void valid(void)
 {
 	change_id_am(0,0,1);
 	lcd_clear(0x3333);
 	if(!strcmp(code,"0000")){//mode root
-		LCD_write_english2_string(134,80,"GUIGUI",Black,0x3333);
+		LCD_write_english2_string(134,80,"ROOT",Black,0x3333);
 		root=1;
+		envoyermsg(m);
+	}
+	else if(!strcmp(code,"1111")){//mode etalon
+		LCD_write_english2_string(134,80,"ETALON",Black,0x3333);
+		etalon=1;
 	}
 	else if(!strcmp(code,"1362")){ //code bon
 		LCD_write_english2_string(134,80,"VALIDER",Black,0x3333);
@@ -72,6 +82,7 @@ void validation(void)
 		LCD_write_english2_string(134,32,"CANCEROUS",Black,0x3333);
 	}
 	change_id_am(1,1,0);
+	current=-1;
 }
 
 void tracer_code(void)
@@ -104,22 +115,30 @@ void decr(void)
 }
 
 
+
 void input(void)
 {
 	if(pos_x<55 && pos_x>5 && pos_y<155 && pos_y>5){
 		decr();
 		LCD_fill_rect(5,55,5,155,Black,Yellow);				//bouton X
+		if (current ==3 | current==-1){
+			rafraichissement();
+		}
+		
 	}
 	if(pos_x<55 && pos_x>5 && pos_y<315 && pos_y>165){
-		validation();  															 //bouton check
+		valid();  															 //bouton check
 	}
 	if(pos_x<175 && pos_x>125 && pos_y<59 && pos_y>5){
 		incr();
 		code[current]='0';
 		LCD_fill_rect(125,175,5,59,Black,Yellow);    //bouton 0
 		change_id_am(0,0,1);
+		
 		LCD_write_english2_string(134,50,"0",Black,Green);
 		change_id_am(1,1,0);
+		lancer_BIP();
+		tracer_code();
 	}
 	if(pos_x<175 && pos_x>125 && pos_y<123 && pos_y>69){
 		incr();
@@ -127,7 +146,9 @@ void input(void)
 		LCD_fill_rect(125,175,69,123,Black,Yellow);  //bouton 1
 		change_id_am(0,0,1);
 		LCD_write_english2_string(134,114,"1",Black,Green);
-		change_id_am(1,1,0);		
+		change_id_am(1,1,0);
+		lancer_BIP();
+		tracer_code();
 	}
 	if(pos_x<175 && pos_x>125 && pos_y<187 && pos_y>133){
 		incr();
@@ -136,6 +157,8 @@ void input(void)
 		change_id_am(0,0,1);
 		LCD_write_english2_string(134,178,"2",Black,Green);
 		change_id_am(1,1,0);
+		lancer_BIP();
+		tracer_code();
 	}
 	if(pos_x<175 && pos_x>125 && pos_y<251 && pos_y>197){
 		incr();
@@ -144,6 +167,8 @@ void input(void)
 		change_id_am(0,0,1);
 		LCD_write_english2_string(134,242,"3",Black,Green);
 		change_id_am(1,1,0);
+		lancer_BIP();
+		tracer_code();
 	}
 	if(pos_x<175 && pos_x>125 && pos_y<315 && pos_y>261){
 		incr();
@@ -152,7 +177,8 @@ void input(void)
 		change_id_am(0,0,1);
 		LCD_write_english2_string(134,306,"4",Black,Green);
 		change_id_am(1,1,0);
-		
+		lancer_BIP();
+		tracer_code();
 	}
 	if(pos_x<115 && pos_x>65 && pos_y<59 && pos_y>5){
 		incr();
@@ -161,6 +187,8 @@ void input(void)
 		change_id_am(0,0,1);
 		LCD_write_english2_string(74,50,"5",Black,Green);
 		change_id_am(1,1,0);
+		lancer_BIP();
+		tracer_code();
 	}
 	if(pos_x<115 && pos_x>65 && pos_y<123 && pos_y>69){
 		incr();
@@ -169,6 +197,8 @@ void input(void)
 		change_id_am(0,0,1);
 		LCD_write_english2_string(74,114,"6",Black,Green);
 		change_id_am(1,1,0);
+		lancer_BIP();
+		tracer_code();
 	}
 	if(pos_x<115 && pos_x>65 && pos_y<187 && pos_y>133){
 		incr();
@@ -177,6 +207,8 @@ void input(void)
 		change_id_am(0,0,1);
 		LCD_write_english2_string(74,178,"7",Black,Green);
 		change_id_am(1,1,0);
+		lancer_BIP();
+		tracer_code();
 	}
 	if(pos_x<115 && pos_x>65 && pos_y<251 && pos_y>197){
 		incr();
@@ -185,6 +217,8 @@ void input(void)
 		change_id_am(0,0,1);
 		LCD_write_english2_string(74,242,"8",Black,Green);
 		change_id_am(1,1,0);
+		lancer_BIP();
+		tracer_code();
 	}
 	if(pos_x<115 && pos_x>65 && pos_y<315 && pos_y>261){
 		incr();
@@ -193,6 +227,8 @@ void input(void)
 		change_id_am(0,0,1);		
 		LCD_write_english2_string(74,306,"9",Black,Green);
 		change_id_am(1,1,0);
+		lancer_BIP();
+		tracer_code();
 	}
 	//tracer_code();
 }

@@ -20,4 +20,5 @@ void convert(void);
 void input(void);
 void tracer_code(void);
 void rafraichissement(void);
+void valid(void);
 #endif // LCD_BULA

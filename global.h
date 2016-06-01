@@ -52,6 +52,7 @@ extern int echo;
 extern int trigger;
 extern int tableau[250];
 extern int nbr;
+extern int distance;
 extern int indic;
 extern int modeEnregistrement;
 extern int modeUS;

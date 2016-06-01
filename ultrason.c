@@ -36,10 +36,12 @@ void comparaison(void) {
 			i++;
 		}
 		root = 0;
-	} else {
-		/*if(comparaison_tableau()==1) {
-			//ouverture(); code de roland pour l'ouverture
-		}*/
+	} else if (etalon == 1) {
+		distance_set();
+		} else {
+		if(comparaison_tableau()==1) {
+			ultravalid=1;
+		}
 	}
 }
 
@@ -47,25 +49,30 @@ void comparaison(void) {
 	int comparaison_tableau(void) {
 		int moy=0;
 		int moy2=0;
-		float ec1=0;
-		float ec2=0;
 		int i;
-		int val=1;
-		for(i=0;i<250;i++) {
+		int val=1;/*
+		for(i=0;i<249;i++) {
 			moy=moy+tableau[i];
 			moy2=moy2+validation[i];
 		}
-		if((moy<(moy2*0.9)) || (moy>(moy2*1.1))) { //ecart de 10% : moyenne
+		if(moy<(moy2/4) || moy>(moy2*4)) {
 			val=0;
-		}
-		for(i=0;i<250;i++) {
-			ec1=ec1+((moy-tableau[i])*(moy-tableau[i]));
-			ec2=ec2+((moy2-validation[i])*(moy2-validation[i]));
-		}
-		if((ec1<(ec2*0.9)) || (ec1>(ec2*1.1))) { //ecart de 10% : ecart type
-			val=0;
-		}
+		}*/
 		
 		return val;
+		
+	}
+	
+	void distance_set(void) {
+		int moy=0;
+		int i;
+		for(i=0;i<249;i++) {
+			moy=moy+tableau[i];
+		}
+		moy = moy/250;
+		moy = moy/29;
+		moy = moy%99;
+		
+		distance = moy;
 		
 	}

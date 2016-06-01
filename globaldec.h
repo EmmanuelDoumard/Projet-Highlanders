@@ -55,6 +55,7 @@ int lancement=0;
 int echo=0;
 int trigger=0;
 int nbr=0;
+int distance=0;
 int modeEnregistrement;
 int indic=0;
 int tableau[250];

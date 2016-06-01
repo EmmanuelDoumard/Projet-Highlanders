@@ -35,6 +35,7 @@ extern int ultravalid;
 
 // Variables Roland
 
+extern int lancement;
 extern int TIMER0_VAR100USROLAND; // Spécial Roland
 extern int etat;
 extern int emi;
@@ -44,16 +45,13 @@ extern int indicerec;
 extern int messagerec[5];
 extern int etatrec;
 extern unsigned long compar;
-extern int lancement;
 
 // Variables Guillaume
 
 extern int echo;
 extern int trigger;
 extern int tableau[250];
-extern int nbr;
-extern int indic;
-extern int modeEnregistrement;
 extern int modeUS;
 extern int statEcho;
 extern int validation[250];
+extern int distance;

@@ -60,23 +60,20 @@ void TIMER0_IRQHandler(void){
 				envoi_message2();
 			}
 		}
-	if ((TIMER0_TEMPS % 10000)==0){
-		var_F5++;						// Variable de rafraîchissement de l'écran pour Benoît
-	}
 			
 	// Gestion du bip
 	if(ENABLE_BIP){
 		if (BIP_DECOMPTE<150000){
-			if (TIMER0_VAR100US % MATCH_BIP==0){
+			if (TIMER0_VAR100US % MATCH_BIP==0){ // Quand l'incrément atteint la valeur de match
 				BIP=1; //On active le bip
 			}
-			if ( BIP && (TIMER0_VAR100US % (MATCH_BIP+DUREE_BIP) == 0)){
-				BIP=0; // Après 100*100us (0.1s), on désactive le bip
+			if ( BIP && (TIMER0_VAR100US % (MATCH_BIP+DUREE_BIP) == 0)){ // Si le bip est activé depuis DUREE_BIP
+				BIP=0; 							// On le désactive
 				TIMER0_VAR100US=1; // On réinitialise l'incrémenteur
 				NB_BIP++;
 			}
-			if ((NB_BIP % 7)==0){  // Tous les 7 bips
-				NB_BIP=1;
+			if ((NB_BIP % 7)==0){  // Tous les 6 bips
+				NB_BIP=1;						// On réinitialise les incrémenteurs
 				MATCH_BIP=MATCH_BIP/2; // On double la vitesse des bips
 				TIMER0_VAR100US=1;
 			}
@@ -108,5 +105,7 @@ void lancer_BIP(){ //Lance le bip s'il n'est pas lancé
 		TIMER0_VAR100US=0;
 		ENABLE_BIP=1;
 		MATCH_BIP=MATCH_BIP_INIT;
+		BIP=0;
+		NB_BIP=0;
 	}
 }

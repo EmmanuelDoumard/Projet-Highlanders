@@ -4,6 +4,7 @@
 
  void T0_Init(void);
  void T3_Init(void);
+ void T1_Init(void);
  void pin_Configuration(void);
  void envoi_message(int*);
  void touch_init(void);
@@ -37,19 +38,19 @@ int main(void)
 
 	// Initialisation Guillaume
 	
-	//pin_Configuration();
-	//initTabUS();
-	//T1_Init();
-	//modeUS=0;
+	pin_Configuration();
+	initTabUS();
+	T1_Init();
+	modeUS=0;
 	
 	
 	while(1)
 	{
-		//gros_pater();
+		gros_pater();
 		
-		//if(emi==0){
-			//envoyermsg(message);
-		//}
+		if(emi==0){
+			envoyermsg(message);
+		}
 		if(bula==1){
 			bula=0;
 			pos_x=0;

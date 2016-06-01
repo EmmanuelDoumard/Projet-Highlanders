@@ -147,6 +147,8 @@ void getpos(void)
             total_y = total_y - min_y - max_y;
             pos_x = total_x / 8;
             pos_y = total_y / 8;
+						//pos_x=max_x;
+						//pos_y=max_y;
         }
 	
 }

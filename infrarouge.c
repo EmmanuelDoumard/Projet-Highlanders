@@ -95,7 +95,7 @@ void envoi_message2(void){
 			TIM_Cmd(LPC_TIM3,DISABLE);
 			etat=5;
 		}
-		if(TIMER0_VAR100USROLAND>19 && etat==5){
+		if(TIMER0_VAR100USROLAND>18 && etat==5){
 			TIMER0_VAR100USROLAND=0;
 			TIM_Cmd(LPC_TIM3,ENABLE);
 			indice++;
@@ -116,11 +116,12 @@ void envoi_message2(void){
 			TIM_Cmd(LPC_TIM3,DISABLE);
 			etat=7;
 		}
-		if(TIMER0_VAR100USROLAND>398&& etat==7){
+		if(TIMER0_VAR100USROLAND>400&& etat==7){
 			etat=0;
 			emi=0;
 			indice=0;
 			TIMER0_VAR100USROLAND=0;
+			lancement=0;
 		}
 	;
 }
@@ -133,7 +134,7 @@ void TIMER2_IRQHandler(void){
 	}
 	switch (etatrec){
 		case 0:
-			if((LPC_TIM2->CR1-compar) > 8800 & (LPC_TIM2->CR1-compar) < 9200){
+			if((LPC_TIM2->CR1-compar) > 8300 & (LPC_TIM2->CR1-compar) < 9700){
 				etatrec=1;
 			}
 			else{
@@ -141,7 +142,7 @@ void TIMER2_IRQHandler(void){
 			}
 		break;
 		case 1:
-			if((LPC_TIM2->CR1-compar) > 4000 & (LPC_TIM2->CR1-compar) < 5000){
+			if((LPC_TIM2->CR1-compar) > 4300 & (LPC_TIM2->CR1-compar) < 4700){
 				etatrec=2;
 				indicerec=0;
 			}
@@ -158,13 +159,13 @@ void TIMER2_IRQHandler(void){
 			}
 		break;
 		case 3:
-			if((LPC_TIM2->CR1-compar) > 500 & (LPC_TIM2->CR1-compar) < 1500){
+			if((LPC_TIM2->CR1-compar) > 950 & (LPC_TIM2->CR1-compar) < 1050){
 				etatrec=2;
 				messagerec[indicerec]=1;
 				indicerec+=1;
 			}
 			else{
-				if((LPC_TIM2->CR1-compar) > 1500 & (LPC_TIM2->CR1-compar) < 2500){
+				if((LPC_TIM2->CR1-compar) > 1900 & (LPC_TIM2->CR1-compar) < 2100){
 				etatrec=2;
 				messagerec[indicerec]=0;
 				indicerec+=1;
@@ -182,7 +183,6 @@ void TIMER2_IRQHandler(void){
 
 /*procédure d'envoi de message passé en paramètre, pour cela on recopie le tableau paramètre dans la variable globale message, puis on lance le timer, on reset la variable qui mesure les 100µs et on passe la variable d'emission à 1*/
 void envoyermsg(int m[5]){
-	if(emi==0){
 	message[0]=m[0];
 	message[1]=m[1];
 	message[2]=m[2];
@@ -192,5 +192,4 @@ void envoyermsg(int m[5]){
 	TIMER0_VAR100USROLAND=0;
 	emi=1;
 	etat=0;
-	}
 }

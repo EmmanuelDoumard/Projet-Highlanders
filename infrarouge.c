@@ -121,6 +121,7 @@ void envoi_message2(void){
 			emi=0;
 			indice=0;
 			TIMER0_VAR100USROLAND=0;
+			lancement=0;
 		}
 	;
 }

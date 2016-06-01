@@ -39,7 +39,7 @@ void TIMER1_IRQHandler(void){
 	trigger++; // cf ultrason
 	if (trigger == 1 && modeUS == 1) {
 		GPIO_SetValue(0, (1<<24));
-	} else if (trigger == 60 && modeUS == 1) {
+	} else if (trigger == 600 && modeUS == 1) {
 		GPIO_ClearValue(0, (1<<24));
 		nbr++;
 	}
@@ -49,11 +49,11 @@ void TIMER1_IRQHandler(void){
 	
 	if (trigger>30000) {
 		trigger = 0;
-		GPIO_IntCmd(0,(1<<26),1);
 	}
 	if(nbr == 60) {
 		modeUS = 0;
 		nbr = 0;
+		GPIO_IntCmd(0,(1<<26),1);
 	}
 	
 TIM_ClearIntPending(LPC_TIM1,TIM_MR0_INT);

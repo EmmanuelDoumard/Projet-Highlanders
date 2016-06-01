@@ -63,7 +63,7 @@ void spi1_init()
     // Initialize SSP peripheral with parameter given in structure above
     SSP_Init(LPC_SSP1,&LCDSPI1_ConfigSetup);
     // Enable SSP peripheral
-    (LPC_SSP1, ENABLE);
+    SSP_Cmd(LPC_SSP1, ENABLE);
 }
 
 void touch_init(void)
@@ -80,7 +80,7 @@ void touch_init(void)
 //  PINSEL_ConfigPin(&touch_init_cfg);
 
     GPIO_SetDir (0,(1<<19),0);  /* PORT0.19 defined as input        */
-    LPC_GPIOINT->IO0IntEnF |= (1<<19);  /*P0.19 Falling edge interrupt      */
+    GPIO_IntCmd (0,(1<<19),1);  /*P0.19 Falling edge interrupt      */
     
 		NVIC_EnableIRQ(EINT3_IRQn);
     

@@ -8,6 +8,7 @@
  void envoi_message(int*);
  void touch_init(void);
 
+
 /* With ARM and GHS toolsets, the entry point is main() - this will
    allow the linker to generate wrapper code to setup stacks, allocate
    heap area, and initialize and copy code and data segments. For GNU
@@ -32,12 +33,11 @@ int main(void)
 	// Initialisation Pinpin
 
 	lcd_Initializtion();	
-	//interface();
-	//touch_init();
+	interface();
+	touch_init();
 
 	// Initialisation Guillaume
 	
-	pin_Configuration();
 	T1_Init();
 	modeUS=0;
 	
@@ -45,17 +45,26 @@ int main(void)
 	while(1)
 	{
 		
-		
-	
-/*		if(bula==1){
+		if(bula==1){
 			bula=0;
-			pos_x=0;
-			pos_y=0;
-			getpos();
-			convert();
-			input();
-		}*/
+			if(etatzer==0){				
+				pos_x=0;
+				pos_y=0;
+				getpos();
+				convert();
+				input();
+			} else if(etatzer==1){
+				etatzer=0;
+				interface();
+			}				
+				
+		if(old>-1){
+			raz(old);
+			old=-1;
+			}
+		}
 		
+
 		
 		if(TIM_GetIntStatus(LPC_TIM0,TIM_MR0_INT)==1){
 			if(emi){ // Fonction Roland

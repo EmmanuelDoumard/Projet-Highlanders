@@ -89,7 +89,7 @@ void pin_Configuration(void)
 	GPIO_SetDir(0,(1<<24),1);
 	GPIO_SetDir(0,(1<<25),0);
 	GPIO_SetDir(0,(1<<26),0);
-	
-	LPC_GPIOINT->IO0IntEnF |= (1<<26);
+   
+  GPIO_IntCmd(0,(1<<26),1);
 	
 }

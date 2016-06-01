@@ -32,31 +32,29 @@ int main(void)
 	// Initialisation Pinpin
 
 	lcd_Initializtion();	
-	interface();
-	touch_init();
+	//interface();
+	//touch_init();
 
 	// Initialisation Guillaume
 	
 	pin_Configuration();
-	initTabUS();
 	T1_Init();
 	modeUS=0;
 	
 	
 	while(1)
 	{
-		gros_pater();
 		
 		
 	
-		if(bula==1){
+/*		if(bula==1){
 			bula=0;
 			pos_x=0;
 			pos_y=0;
 			getpos();
 			convert();
 			input();
-		}
+		}*/
 		
 		
 		if(TIM_GetIntStatus(LPC_TIM0,TIM_MR0_INT)==1){

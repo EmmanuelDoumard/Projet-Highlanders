@@ -4,7 +4,7 @@
 #include "global.h"
 
 
-/*  */
+/* 
 void initTabUS(void) {
 	int i;
 	for(i=0;i<100;i++) {
@@ -109,3 +109,4 @@ void gros_pater(void) {
 		return val;
 		
 	}
+*/

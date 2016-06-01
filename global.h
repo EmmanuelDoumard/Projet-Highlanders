@@ -47,6 +47,7 @@ extern unsigned long compar;
 
 extern int echo;
 extern int trigger;
+extern int nbr;
 extern int tableau[250];
 extern int modeUS;
 extern int statEcho;

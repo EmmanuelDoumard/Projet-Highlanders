@@ -37,9 +37,23 @@ void T1_Init(void)
 /* Code de l'interruption. Est déclenchée si TC = MR, c'est-à-dire toutes les 1µs pour timer 1 */
 void TIMER1_IRQHandler(void){
 	trigger++; // cf ultrason
-	echo++;
-	if (trigger>60000 & modeUS==6) {
-		modeUS=1;
+	if (trigger == 1 && modeUS == 1) {
+		GPIO_SetValue(0, (1<<24));
+	} else if (trigger == 60 && modeUS == 1) {
+		GPIO_ClearValue(0, (1<<24));
+		nbr++;
+	}
+		
+	
+	
+	
+	if (trigger>30000) {
+		trigger = 0;
+		GPIO_IntCmd(0,(1<<26),1);
+	}
+	if(nbr == 60) {
+		modeUS = 0;
+		nbr = 0;
 	}
 	
 TIM_ClearIntPending(LPC_TIM1,TIM_MR0_INT);

@@ -51,6 +51,7 @@ unsigned long compar=0;
 
 int echo=0;
 int trigger=0;
+int nbr=0;
 int tableau[250];
 int modeUS;
 int statEcho;

@@ -30,14 +30,16 @@ int I2C0_clockrate=100000; // 100 000 Hz (100kbpm ?) pour la clockrate de I2C0..
 int pos_x=0;
 int pos_y=0;
 int current=-1;
-int var_F5=0;
-int old_F5=0;
 int bula=0;
+int etatzer=0;
+int old=-1;
+int valida=-1;
+int ultravalid=0;
 
 // Variables Roland
 
 long TIMER0_VAR100USROLAND=0 ; // Spécial Roland sur Timer0
-
+int lancement=0;
 int message[5]={1,1,1,1,0};
 int indice=0;
 int emi=0;

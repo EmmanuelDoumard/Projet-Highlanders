@@ -38,23 +38,8 @@ void T1_Init(void)
 void TIMER1_IRQHandler(void){
 	trigger++; // cf ultrason
 	echo++;
-	if (trigger == 1 && modeUS == 1) {
-		GPIO_SetValue(0, (1<<24));
-	} else if (trigger == 5 && modeUS == 1) {
-		GPIO_ClearValue(0, (1<<24));
-		nbr++;
-		GPIO_IntCmd(0,(1<<25),1);
-	}
-		
-	
-	
-	
-	if (trigger>40000) {
-		trigger = 0;
-	}
-	if(nbr == 250) {
-		modeUS = 0;
-		nbr = 0;
+	if (trigger>60000 & modeUS==6) {
+		modeUS=1;
 	}
 	
 TIM_ClearIntPending(LPC_TIM1,TIM_MR0_INT);

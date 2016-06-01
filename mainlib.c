@@ -7,6 +7,7 @@
  void pin_Configuration(void);
  void envoi_message(int*);
  void touch_init(void);
+ void T1_Init(void);
 
 
 /* With ARM and GHS toolsets, the entry point is main() - this will
@@ -39,11 +40,15 @@ int main(void)
 	// Initialisation Guillaume
 	
 	T1_Init();
+	initTabUS();
 	modeUS=0;
 	
 	
 	while(1)
 	{
+		GROS_PATER_2();
+				
+					
 		
 		if(bula==1){
 			bula=0;

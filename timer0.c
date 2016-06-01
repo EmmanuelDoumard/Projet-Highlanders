@@ -40,40 +40,41 @@ void TIMER0_IRQHandler(void){
 	TIMER0_VAR100US++;
 	TIMER0_VAR100USROLAND++;
 	BIP_DECOMPTE++;
-	if(emi){ // Fonction Roland
-		if (TIMER0_VAR100USROLAND>88){
-				envoi_message2();
+	
+
+			if(emi){ // Fonction Roland
+				if (TIMER0_VAR100USROLAND>44){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>22){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>2){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>4){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>9){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>199){
+					envoi_message2();
+				}
 			}
-			else if (TIMER0_VAR100USROLAND>44){
-				envoi_message2();
-			}
-			else if (TIMER0_VAR100USROLAND>5){
-				envoi_message2();
-			}
-			else if (TIMER0_VAR100USROLAND>8){
-				envoi_message2();
-			}
-			else if (TIMER0_VAR100USROLAND>18){
-				envoi_message2();
-			}
-			else if (TIMER0_VAR100USROLAND>400){
-				envoi_message2();
-			}
-		}
-			
 	// Gestion du bip
 	if(ENABLE_BIP){
 		if (BIP_DECOMPTE<150000){
-			if (TIMER0_VAR100US % MATCH_BIP==0){ // Quand l'incrément atteint la valeur de match
+			if (TIMER0_VAR100US % MATCH_BIP==0){
 				BIP=1; //On active le bip
 			}
-			if ( BIP && (TIMER0_VAR100US % (MATCH_BIP+DUREE_BIP) == 0)){ // Si le bip est activé depuis DUREE_BIP
-				BIP=0; 							// On le désactive
+			if ( BIP && (TIMER0_VAR100US % (MATCH_BIP+DUREE_BIP) == 0)){
+				BIP=0; // Après 100*100us (0.1s), on désactive le bip
 				TIMER0_VAR100US=1; // On réinitialise l'incrémenteur
 				NB_BIP++;
 			}
-			if ((NB_BIP % 7)==0){  // Tous les 6 bips
-				NB_BIP=1;						// On réinitialise les incrémenteurs
+			if ((NB_BIP % 7)==0){  // Tous les 7 bips
+				NB_BIP=1;
 				MATCH_BIP=MATCH_BIP/2; // On double la vitesse des bips
 				TIMER0_VAR100US=1;
 			}
@@ -91,8 +92,7 @@ void TIMER0_IRQHandler(void){
 			}
 		}
 		else{ //Si on a dépassé les 15 secondes
-			ENABLE_BIP=0;
-			current=-1;
+			valid();
 		}
 	}
 	
@@ -106,6 +106,6 @@ void lancer_BIP(){ //Lance le bip s'il n'est pas lancé
 		ENABLE_BIP=1;
 		MATCH_BIP=MATCH_BIP_INIT;
 		BIP=0;
-		NB_BIP=0;
+		NB_BIP=1;
 	}
 }

@@ -4,10 +4,10 @@
 
  void T0_Init(void);
  void T3_Init(void);
- void T1_Init(void);
  void pin_Configuration(void);
  void envoi_message(int*);
  void touch_init(void);
+
 
 /* With ARM and GHS toolsets, the entry point is main() - this will
    allow the linker to generate wrapper code to setup stacks, allocate
@@ -38,31 +38,49 @@ int main(void)
 
 	// Initialisation Guillaume
 	
-	pin_Configuration();
 	initTabUS();
 	T1_Init();
 	modeUS=0;
-	
+	envoyermsg(message);
 	
 	while(1)
 	{
 		gros_pater();
 		
-		if(emi==0){
-			envoyermsg(message);
+		if(valida==1){
+			valida=0;
+			validada();		
 		}
-		if(bula==1){
-			bula=0;
-			pos_x=0;
-			pos_y=0;
-			getpos();
-			convert();
-			input();
+		if(ultravalid==1){
+			ultravalid=0;
+			sprintf(code,"%",1362);
+			validada();
+			
 		}
 		
-		if(messagerec[1]){
-			LCD_fill_reg(100,200,100,200,Black);
-		}
+		if(bula==1){
+			bula=0;
+			if(etatzer==1){
+				interface();
+			};		
+			if(etatzer<0){				
+				pos_x=0;
+				pos_y=0;
+				getpos();
+				convert();
+				input();
+			} else{
+				etatzer--;
+			};
+		}	
+				
+		if(old>-1){
+			raz(old);
+			old=-1;
+			}
+		
+
+		
 		
 	}
 }

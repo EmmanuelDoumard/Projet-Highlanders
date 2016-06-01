@@ -33,11 +33,13 @@ int current=-1;
 int bula=0;
 int etatzer=0;
 int old=-1;
+int valida=-1;
+int ultravalid=0;
 
 // Variables Roland
 
 long TIMER0_VAR100USROLAND=0 ; // Spécial Roland sur Timer0
-int lancement=0;
+
 int message[5]={1,1,1,1,0};
 int indice=0;
 int emi=0;
@@ -46,12 +48,14 @@ int messagerec[5]={0,0,0,0,0};
 int indicerec=0;
 int etatrec=0;
 unsigned long compar=0;
+int lancement=0;
 
 // Variables Guillaume
 
 int echo=0;
 int trigger=0;
 int nbr=0;
+int distance=0;
 int modeEnregistrement;
 int indic=0;
 int tableau[250];

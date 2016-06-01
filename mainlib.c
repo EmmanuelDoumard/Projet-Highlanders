@@ -4,11 +4,10 @@
 
  void T0_Init(void);
  void T3_Init(void);
+ void T1_Init(void);
  void pin_Configuration(void);
  void envoi_message(int*);
  void touch_init(void);
- void T1_Init(void);
-
 
 /* With ARM and GHS toolsets, the entry point is main() - this will
    allow the linker to generate wrapper code to setup stacks, allocate
@@ -39,60 +38,46 @@ int main(void)
 
 	// Initialisation Guillaume
 	
-	T1_Init();
+	pin_Configuration();
 	initTabUS();
+	T1_Init();
 	modeUS=0;
 	
 	
 	while(1)
 	{
 		GROS_PATER_2();
-				
-					
 		
+		if(valida==1){
+			valida=0;
+			validada();		
+		}
+		if(ultravalid==1){
+			ultravalid=0;
+			sprintf(code,"%d",1362);
+			validada();
+		}
 		if(bula==1){
 			bula=0;
-			if(etatzer==0){				
+			if(etatzer==1){
+				interface();
+			};		
+			if(etatzer<0){				
 				pos_x=0;
 				pos_y=0;
 				getpos();
 				convert();
 				input();
-			} else if(etatzer==1){
-				etatzer=0;
-				interface();
-			}				
+			} else{
+				etatzer--;
+			};
+		}	
 				
 		if(old>-1){
 			raz(old);
 			old=-1;
 			}
-		}
-		
-
-		
-		if(TIM_GetIntStatus(LPC_TIM0,TIM_MR0_INT)==1){
-			if(emi){ // Fonction Roland
-				if (TIMER0_VAR100USROLAND>44){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>22){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>2){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>4){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>9){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>199){
-					envoi_message2();
-				}
-			}
-		}
+				
 	}
 }
 

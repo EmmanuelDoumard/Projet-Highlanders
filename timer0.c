@@ -40,7 +40,26 @@ void TIMER0_IRQHandler(void){
 	TIMER0_VAR100US++;
 	TIMER0_VAR100USROLAND++;
 	BIP_DECOMPTE++;
-	
+	if(emi){ // Fonction Roland
+		if (TIMER0_VAR100USROLAND>88){
+				envoi_message2();
+			}
+			else if (TIMER0_VAR100USROLAND>44){
+				envoi_message2();
+			}
+			else if (TIMER0_VAR100USROLAND>5){
+				envoi_message2();
+			}
+			else if (TIMER0_VAR100USROLAND>8){
+				envoi_message2();
+			}
+			else if (TIMER0_VAR100USROLAND>18){
+				envoi_message2();
+			}
+			else if (TIMER0_VAR100USROLAND>400){
+				envoi_message2();
+			}
+		}
 	if ((TIMER0_TEMPS % 10000)==0){
 		var_F5++;						// Variable de rafraîchissement de l'écran pour Benoît
 	}

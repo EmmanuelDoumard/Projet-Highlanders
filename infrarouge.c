@@ -53,12 +53,12 @@ void T2_Init(void){
 /*envoi du message stocké dans la variable globale message, on gère tout cela grâce a l'interruption sur le timer 0 toutes les 100µs pour gérer les différentes temps demandés*/
 void envoi_message2(void){
 
-		if (TIMER0_VAR100USROLAND>44 && etat==0){
+		if (TIMER0_VAR100USROLAND>88 && etat==0){
 			TIMER0_VAR100USROLAND=0;
 			TIM_Cmd(LPC_TIM3,DISABLE);
 			etat=1;
 		}
-		if(etat==1 && TIMER0_VAR100USROLAND>22 ){
+		if(etat==1 && TIMER0_VAR100USROLAND>44 ){
 			TIM_Cmd(LPC_TIM3,ENABLE);
 			TIMER0_VAR100USROLAND=0;
 			if(message[indice]){
@@ -69,12 +69,12 @@ void envoi_message2(void){
 			}
 		}
 		//on envoie les bits 1 à 1 du message
-		if (etat==2 && TIMER0_VAR100USROLAND>2){
+		if (etat==2 && TIMER0_VAR100USROLAND>5){
 			TIMER0_VAR100USROLAND=0;
 			TIM_Cmd(LPC_TIM3,DISABLE);
 			etat=4;
 		}
-		if (etat==4 && TIMER0_VAR100USROLAND>4){
+		if (etat==4 && TIMER0_VAR100USROLAND>9){
 			TIMER0_VAR100USROLAND=0;
 			TIM_Cmd(LPC_TIM3,ENABLE);
 			indice++;
@@ -90,12 +90,12 @@ void envoi_message2(void){
 				}
 			}
 		}
-		if(etat==3 && TIMER0_VAR100USROLAND>2) {
+		if(etat==3 && TIMER0_VAR100USROLAND>5) {
 			TIMER0_VAR100USROLAND=0;
 			TIM_Cmd(LPC_TIM3,DISABLE);
 			etat=5;
 		}
-		if(TIMER0_VAR100USROLAND>9 && etat==5){
+		if(TIMER0_VAR100USROLAND>19 && etat==5){
 			TIMER0_VAR100USROLAND=0;
 			TIM_Cmd(LPC_TIM3,ENABLE);
 			indice++;
@@ -111,12 +111,12 @@ void envoi_message2(void){
 				}
 			}
 		}
-		if (TIMER0_VAR100USROLAND>2&& etat==6){
+		if (TIMER0_VAR100USROLAND>5&& etat==6){
 			TIMER0_VAR100USROLAND=0;
 			TIM_Cmd(LPC_TIM3,DISABLE);
 			etat=7;
 		}
-		if(TIMER0_VAR100USROLAND>199&& etat==7){
+		if(TIMER0_VAR100USROLAND>398&& etat==7){
 			etat=0;
 			emi=0;
 			indice=0;
@@ -141,7 +141,7 @@ void TIMER2_IRQHandler(void){
 			}
 		break;
 		case 1:
-			if((LPC_TIM2->CR1-compar) > 4300 & (LPC_TIM2->CR1-compar) < 4700){
+			if((LPC_TIM2->CR1-compar) > 4000 & (LPC_TIM2->CR1-compar) < 5000){
 				etatrec=2;
 				indicerec=0;
 			}
@@ -158,13 +158,13 @@ void TIMER2_IRQHandler(void){
 			}
 		break;
 		case 3:
-			if((LPC_TIM2->CR1-compar) > 950 & (LPC_TIM2->CR1-compar) < 1050){
+			if((LPC_TIM2->CR1-compar) > 500 & (LPC_TIM2->CR1-compar) < 1500){
 				etatrec=2;
 				messagerec[indicerec]=1;
 				indicerec+=1;
 			}
 			else{
-				if((LPC_TIM2->CR1-compar) > 1900 & (LPC_TIM2->CR1-compar) < 2100){
+				if((LPC_TIM2->CR1-compar) > 1500 & (LPC_TIM2->CR1-compar) < 2500){
 				etatrec=2;
 				messagerec[indicerec]=0;
 				indicerec+=1;
@@ -182,6 +182,7 @@ void TIMER2_IRQHandler(void){
 
 /*procédure d'envoi de message passé en paramètre, pour cela on recopie le tableau paramètre dans la variable globale message, puis on lance le timer, on reset la variable qui mesure les 100µs et on passe la variable d'emission à 1*/
 void envoyermsg(int m[5]){
+	if(emi==0){
 	message[0]=m[0];
 	message[1]=m[1];
 	message[2]=m[2];
@@ -191,4 +192,5 @@ void envoyermsg(int m[5]){
 	TIMER0_VAR100USROLAND=0;
 	emi=1;
 	etat=0;
+	}
 }

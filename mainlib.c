@@ -37,18 +37,19 @@ int main(void)
 
 	// Initialisation Guillaume
 	
-	pin_Configuration();
-	initTabUS();
-	T1_Init();
-	modeUS=0;
+	//pin_Configuration();
+	//initTabUS();
+	//T1_Init();
+	//modeUS=0;
 	
 	
 	while(1)
 	{
-		gros_pater();
+		//gros_pater();
 		
-		
-	
+		//if(emi==0){
+			//envoyermsg(message);
+		//}
 		if(bula==1){
 			bula=0;
 			pos_x=0;
@@ -58,29 +59,10 @@ int main(void)
 			input();
 		}
 		
-		
-		if(TIM_GetIntStatus(LPC_TIM0,TIM_MR0_INT)==1){
-			if(emi){ // Fonction Roland
-				if (TIMER0_VAR100USROLAND>44){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>22){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>2){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>4){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>9){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>199){
-					envoi_message2();
-				}
-			}
+		if(messagerec[1]){
+			LCD_fill_reg(100,200,100,200,Black);
 		}
+		
 	}
 }
 

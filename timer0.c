@@ -42,7 +42,26 @@ void TIMER0_IRQHandler(void){
 	BIP_DECOMPTE++;
 	
 
-			
+			if(emi){ // Fonction Roland
+				if (TIMER0_VAR100USROLAND>44){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>22){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>2){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>4){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>9){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>199){
+					envoi_message2();
+				}
+			}
 	// Gestion du bip
 	if(ENABLE_BIP){
 		if (BIP_DECOMPTE<150000){
@@ -73,8 +92,7 @@ void TIMER0_IRQHandler(void){
 			}
 		}
 		else{ //Si on a dépassé les 15 secondes
-			ENABLE_BIP=0;
-			current=-1;
+			valid();
 		}
 	}
 	
@@ -88,6 +106,6 @@ void lancer_BIP(){ //Lance le bip s'il n'est pas lancé
 		ENABLE_BIP=1;
 		MATCH_BIP=MATCH_BIP_INIT;
 		BIP=0;
-		NB_BIP=0;
+		NB_BIP=1;
 	}
 }

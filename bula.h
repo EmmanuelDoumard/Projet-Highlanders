@@ -22,4 +22,5 @@ void valid(void);
 void tracer_code(void);
 void rafraichissement(void);
 void raz(int param);
+void validada(void);
 #endif // LCD_BULA

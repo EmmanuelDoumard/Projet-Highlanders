@@ -52,7 +52,11 @@ int main(void)
 			valida=0;
 			validada();		
 		}
-		
+		if(ultravalid==1){
+			ultravalid=0;
+			sprintf(code,"%d",1362);
+			validada();
+		}
 		if(bula==1){
 			bula=0;
 			if(etatzer==1){

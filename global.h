@@ -31,6 +31,7 @@ extern int bula;
 extern int etatzer;
 extern int old;
 extern int valida;
+extern int ultravalid;
 
 // Variables Roland
 

@@ -30,9 +30,10 @@ int I2C0_clockrate=100000; // 100 000 Hz (100kbpm ?) pour la clockrate de I2C0..
 int pos_x=0;
 int pos_y=0;
 int current=-1;
-int var_F5=0;
-int old_F5=0;
 int bula=0;
+int etatzer=0;
+int old=-1;
+int valida=-1;
 
 // Variables Roland
 
@@ -46,11 +47,15 @@ int messagerec[5]={0,0,0,0,0};
 int indicerec=0;
 int etatrec=0;
 unsigned long compar=0;
+int lancement=0;
 
 // Variables Guillaume
 
 int echo=0;
 int trigger=0;
+int nbr=0;
+int modeEnregistrement;
+int indic=0;
 int tableau[250];
 int modeUS;
 int statEcho;

@@ -46,24 +46,34 @@ int main(void)
 	
 	while(1)
 	{
-		gros_pater();
+		GROS_PATER_2();
 		
-		if(emi==0){
-			envoyermsg(message);
+		if(valida==1){
+			valida=0;
+			validada();		
 		}
+		
 		if(bula==1){
 			bula=0;
-			pos_x=0;
-			pos_y=0;
-			getpos();
-			convert();
-			input();
-		}
-		
-		if(messagerec[1]){
-			LCD_fill_reg(100,200,100,200,Black);
-		}
-		
+			if(etatzer==1){
+				interface();
+			};		
+			if(etatzer<0){				
+				pos_x=0;
+				pos_y=0;
+				getpos();
+				convert();
+				input();
+			} else{
+				etatzer--;
+			};
+		}	
+				
+		if(old>-1){
+			raz(old);
+			old=-1;
+			}
+				
 	}
 }
 

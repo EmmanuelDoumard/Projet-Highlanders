@@ -27,9 +27,10 @@ extern int I2C0_clockrate; // clockrate de I2C0...???
 extern int pos_x;
 extern int pos_y;
 extern int current;
-extern int var_F5;
-extern int old_F5;
 extern int bula;
+extern int etatzer;
+extern int old;
+extern int valida;
 
 // Variables Roland
 
@@ -42,12 +43,16 @@ extern int indicerec;
 extern int messagerec[5];
 extern int etatrec;
 extern unsigned long compar;
+extern int lancement;
 
 // Variables Guillaume
 
 extern int echo;
 extern int trigger;
 extern int tableau[250];
+extern int nbr;
+extern int indic;
+extern int modeEnregistrement;
 extern int modeUS;
 extern int statEcho;
 extern int validation[250];

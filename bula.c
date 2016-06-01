@@ -6,8 +6,6 @@ extern const char english[][16];
 
 int m[5]={0,1,0,1,0};
 
-
-
 void interface(void)
 {
 	lcd_clear(Fond);
@@ -27,7 +25,7 @@ void interface(void)
 	LCD_fill_rect(65,115,197,251,Black,White);  //bouton 8
 	LCD_fill_rect(65,115,261,315,Black,White);  //bouton 9
 	
-	change_id_am(0,0,1); //ne jamais faire AM=0 !!!
+	//ne jamais faire AM=0 !!!
 	
 	LCD_write_english2_string(74,50,"5",Black,White);
 	LCD_write_english2_string(74,114,"6",Black,White);
@@ -41,7 +39,6 @@ void interface(void)
 	LCD_write_english2_string(134,242,"3",Black,White);
 	LCD_write_english2_string(134,306,"4",Black,White);
 
-	change_id_am(1,1,0);
 }
 
 
@@ -64,7 +61,7 @@ void rafraichissement(void)
 
 void valid(void)
 {
-	change_id_am(0,0,1);
+	ENABLE_BIP=0;
 	lcd_clear(0x3333);
 	if(!strcmp(code,"0000")){//mode root
 		LCD_write_english2_string(134,80,"ROOT",Black,0x3333);
@@ -81,8 +78,13 @@ void valid(void)
 	else{ 									//code pas bon
 		LCD_write_english2_string(134,32,"CANCEROUS",Black,0x3333);
 	}
-	change_id_am(1,1,0);
 	current=-1;
+	code[0]='B';
+	code[1]='U';
+	code[2]='L';
+	code[3]='A';
+	etatzer=1;
+	
 }
 
 void tracer_code(void)
@@ -114,123 +116,155 @@ void decr(void)
 	}
 }
 
+void raz(int param)
+{
+	switch (param){
+		case 0 :
+			LCD_fill_rect(125,175,5,59,Black,White);
+		LCD_write_english2_string(134,50,"0",Black,White);
+		break;	
+		case 1 :
+			LCD_fill_rect(125,175,69,123,Black,White); 
+		LCD_write_english2_string(134,114,"1",Black,White);
+		break;	
+		case 2 :
+			LCD_fill_rect(125,175,133,187,Black,White);
+		LCD_write_english2_string(134,178,"2",Black,White);	
+		break;	
+		case 3 :
+			LCD_fill_rect(125,175,197,251,Black,White);
+		LCD_write_english2_string(134,242,"3",Black,White);
+		break;	
+		case 4 :
+			LCD_fill_rect(125,175,261,315,Black,White);
+		LCD_write_english2_string(134,306,"4",Black,White);
+		break;	
+		case 5 :
+			LCD_fill_rect(65,115,5,59,Black,White);
+		LCD_write_english2_string(74,50,"5",Black,White);
+		break;	
+		case 6 :
+			LCD_fill_rect(65,115,69,123,Black,White); 
+		LCD_write_english2_string(74,114,"6",Black,White);
+		break;	
+		case 7 :
+			LCD_fill_rect(65,115,133,187,Black,White); 
+		LCD_write_english2_string(74,178,"7",Black,White);
+		break;	
+		case 8 :
+			LCD_fill_rect(65,115,197,251,Black,White);
+		LCD_write_english2_string(74,242,"8",Black,White);
+		break;	
+		case 9 :
+			LCD_fill_rect(65,115,261,315,Black,White);
+		LCD_write_english2_string(74,306,"9",Black,White);
+		break;	
+	}
+}
+
 
 
 void input(void)
-{
-	if(pos_x<55 && pos_x>5 && pos_y<155 && pos_y>5){
-		decr();
-		LCD_fill_rect(5,55,5,155,Black,Yellow);				//bouton X
-		if (current ==3 | current==-1){
-			rafraichissement();
+{		
+		if(pos_x<55 && pos_x>5 && pos_y<155 && pos_y>5){
+			decr();
+			LCD_fill_rect(5,55,5,155,Black,Yellow);				//bouton X
+			tracer_code();
+			LCD_fill_rect(5,55,5,155,Black,Red);
 		}
-		
-	}
-	if(pos_x<55 && pos_x>5 && pos_y<315 && pos_y>165){
-		valid();  															 //bouton check
-	}
-	if(pos_x<175 && pos_x>125 && pos_y<59 && pos_y>5){
-		incr();
-		code[current]='0';
-		LCD_fill_rect(125,175,5,59,Black,Yellow);    //bouton 0
-		change_id_am(0,0,1);
-		
-		LCD_write_english2_string(134,50,"0",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	if(pos_x<175 && pos_x>125 && pos_y<123 && pos_y>69){
-		incr();
-		code[current]='1';
-		LCD_fill_rect(125,175,69,123,Black,Yellow);  //bouton 1
-		change_id_am(0,0,1);
-		LCD_write_english2_string(134,114,"1",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	if(pos_x<175 && pos_x>125 && pos_y<187 && pos_y>133){
-		incr();
-		code[current]='2';
-		LCD_fill_rect(125,175,133,187,Black,Yellow); //bouton 2
-		change_id_am(0,0,1);
-		LCD_write_english2_string(134,178,"2",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	if(pos_x<175 && pos_x>125 && pos_y<251 && pos_y>197){
-		incr();
-		code[current]='3';
-		LCD_fill_rect(125,175,197,251,Black,Yellow); //bouton 3
-		change_id_am(0,0,1);
-		LCD_write_english2_string(134,242,"3",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	if(pos_x<175 && pos_x>125 && pos_y<315 && pos_y>261){
-		incr();
-		code[current]='4';
-		LCD_fill_rect(125,175,261,315,Black,Yellow); //bouton 4
-		change_id_am(0,0,1);
-		LCD_write_english2_string(134,306,"4",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	if(pos_x<115 && pos_x>65 && pos_y<59 && pos_y>5){
-		incr();
-		code[current]='5';
-		LCD_fill_rect(65,115,5,59,Black,Yellow);     //bouton 5
-		change_id_am(0,0,1);
-		LCD_write_english2_string(74,50,"5",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	if(pos_x<115 && pos_x>65 && pos_y<123 && pos_y>69){
-		incr();
-		code[current]='6';
-		LCD_fill_rect(65,115,69,123,Black,Yellow);   //bouton 6
-		change_id_am(0,0,1);
-		LCD_write_english2_string(74,114,"6",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	if(pos_x<115 && pos_x>65 && pos_y<187 && pos_y>133){
-		incr();
-		code[current]='7';
-		LCD_fill_rect(65,115,133,187,Black,Yellow);  //bouton 7
-		change_id_am(0,0,1);
-		LCD_write_english2_string(74,178,"7",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	if(pos_x<115 && pos_x>65 && pos_y<251 && pos_y>197){
-		incr();
-		code[current]='8';
-		LCD_fill_rect(65,115,197,251,Black,Yellow);  //bouton 8
-		change_id_am(0,0,1);
-		LCD_write_english2_string(74,242,"8",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	if(pos_x<115 && pos_x>65 && pos_y<315 && pos_y>261){
-		incr();
-		code[current]='9';
-		LCD_fill_rect(65,115,261,315,Black,Yellow);  //bouton 9
-		change_id_am(0,0,1);		
-		LCD_write_english2_string(74,306,"9",Black,Green);
-		change_id_am(1,1,0);
-		lancer_BIP();
-		tracer_code();
-	}
-	//tracer_code();
+		if(pos_x<55 && pos_x>5 && pos_y<315 && pos_y>165){
+			valid();  															 //bouton check
+		}
+		if(pos_x<175 && pos_x>125 && pos_y<59 && pos_y>5){
+			incr();
+			old=0;
+			code[current]='0';
+			LCD_fill_rect(125,175,5,59,Black,Yellow);    //bouton 0
+			LCD_write_english2_string(134,50,"0",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
+		if(pos_x<175 && pos_x>125 && pos_y<123 && pos_y>69){
+			incr();
+			old=1;
+			code[current]='1';
+			LCD_fill_rect(125,175,69,123,Black,Yellow);  //bouton 1
+			LCD_write_english2_string(134,114,"1",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
+		if(pos_x<175 && pos_x>125 && pos_y<187 && pos_y>133){
+			incr();
+			old=2;
+			code[current]='2';
+			LCD_fill_rect(125,175,133,187,Black,Yellow); //bouton 2
+			LCD_write_english2_string(134,178,"2",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
+		if(pos_x<175 && pos_x>125 && pos_y<251 && pos_y>197){
+			incr();
+			old=3;
+			code[current]='3';
+			LCD_fill_rect(125,175,197,251,Black,Yellow); //bouton 3
+			LCD_write_english2_string(134,242,"3",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
+		if(pos_x<175 && pos_x>125 && pos_y<315 && pos_y>261){
+			incr();
+			old=4;
+			code[current]='4';
+			LCD_fill_rect(125,175,261,315,Black,Yellow); //bouton 4
+			LCD_write_english2_string(134,306,"4",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
+		if(pos_x<115 && pos_x>65 && pos_y<59 && pos_y>5){
+			incr();
+			old=5;
+			code[current]='5';
+			LCD_fill_rect(65,115,5,59,Black,Yellow);     //bouton 5
+			LCD_write_english2_string(74,50,"5",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
+		if(pos_x<115 && pos_x>65 && pos_y<123 && pos_y>69){
+			incr();
+			old=6;
+			code[current]='6';
+			LCD_fill_rect(65,115,69,123,Black,Yellow);   //bouton 6
+			LCD_write_english2_string(74,114,"6",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
+		if(pos_x<115 && pos_x>65 && pos_y<187 && pos_y>133){
+			incr();
+			old=7;
+			code[current]='7';
+			LCD_fill_rect(65,115,133,187,Black,Yellow);  //bouton 7
+			LCD_write_english2_string(74,178,"7",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
+		if(pos_x<115 && pos_x>65 && pos_y<251 && pos_y>197){
+			incr();
+			old=8;
+			code[current]='8';
+			LCD_fill_rect(65,115,197,251,Black,Yellow);  //bouton 8
+			LCD_write_english2_string(74,242,"8",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
+		if(pos_x<115 && pos_x>65 && pos_y<315 && pos_y>261){
+			incr();
+			old=9;
+			code[current]='9';
+			LCD_fill_rect(65,115,261,315,Black,Yellow);  //bouton 9		
+			LCD_write_english2_string(74,306,"9",Black,Green);
+			lancer_BIP();
+			tracer_code();
+		}
 }
 
 void convert(void)
@@ -238,7 +272,6 @@ void convert(void)
 	pos_x=(pos_x-500)*240/(3700-500);
 	pos_y=(pos_y-150)*320/(3700-150);
 	pos_y=320-pos_y;
-	//pos_x=240-pos_x;
 }
 
 

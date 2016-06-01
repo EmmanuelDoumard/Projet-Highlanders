@@ -46,12 +46,14 @@ void LCD_write_english2(uint16_t x,uint16_t y,uint8_t str,unsigned int color,uns
 
 void LCD_write_english2_string(uint16_t x,uint16_t y,char *s,unsigned int color,unsigned int xcolor)
 {
+	change_id_am(0,0,1);
 	while (*s)
     {
         LCD_write_english2(x,y,*s,color,xcolor);
         s++;
         y += 32;
     }
+	change_id_am(1,1,0);
 }
 
 

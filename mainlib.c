@@ -8,6 +8,7 @@
  void envoi_message(int*);
  void touch_init(void);
 
+
 /* With ARM and GHS toolsets, the entry point is main() - this will
    allow the linker to generate wrapper code to setup stacks, allocate
    heap area, and initialize and copy code and data segments. For GNU
@@ -37,32 +38,58 @@ int main(void)
 
 	// Initialisation Guillaume
 	
-	//pin_Configuration();
-	//initTabUS();
-	//T1_Init();
-	//modeUS=0;
+	initTabUS();
+	T1_Init();
+	modeUS=0;
 	
 	
 	while(1)
 	{
-		//gros_pater();
+		gros_pater();
 		
-		//if(emi==0){
-			//envoyermsg(message);
-		//}
 		if(bula==1){
 			bula=0;
-			pos_x=0;
-			pos_y=0;
-			getpos();
-			convert();
-			input();
+			if(etatzer==0){				
+				pos_x=0;
+				pos_y=0;
+				getpos();
+				convert();
+				input();
+			} else if(etatzer==1){
+				etatzer=0;
+				interface();
+			}				
+				
+		if(old>-1){
+			raz(old);
+			old=-1;
+			}
 		}
 		
-		if(messagerec[1]){
-			LCD_fill_reg(100,200,100,200,Black);
-		}
+
 		
+		if(TIM_GetIntStatus(LPC_TIM0,TIM_MR0_INT)==1){
+			if(emi){ // Fonction Roland
+				if (TIMER0_VAR100USROLAND>44){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>22){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>2){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>4){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>9){
+					envoi_message2();
+				}
+				else if (TIMER0_VAR100USROLAND>199){
+					envoi_message2();
+				}
+			}
+		}
 	}
 }
 

@@ -18,7 +18,8 @@ void interface(void);
 void getpos(void);
 void convert(void);
 void input(void);
+void valid(void);
 void tracer_code(void);
 void rafraichissement(void);
-void valid(void);
+void raz(int param);
 #endif // LCD_BULA

@@ -27,12 +27,13 @@ extern int I2C0_clockrate; // clockrate de I2C0...???
 extern int pos_x;
 extern int pos_y;
 extern int current;
-extern int var_F5;
-extern int old_F5;
 extern int bula;
+extern int etatzer;
+extern int old;
 
 // Variables Roland
 
+extern int lancement;
 extern int TIMER0_VAR100USROLAND; // Spécial Roland
 extern int etat;
 extern int emi;

@@ -3,11 +3,13 @@
 #include "bula.h"
 extern const char english[][16];
 
-
+char dd[3]="00";
 int m[5]={0,1,0,1,0};
 
 void interface(void)
 {
+	
+	
 	lcd_clear(Fond);
 	LCD_fill_rect(5,55,5,155,Black,Red);    //bouton X
 	LCD_fill_rect(5,55,165,315,Black,Green);   //bouton check
@@ -38,6 +40,10 @@ void interface(void)
 	LCD_write_english2_string(134,178,"2",Black,White);	
 	LCD_write_english2_string(134,242,"3",Black,White);
 	LCD_write_english2_string(134,306,"4",Black,White);
+	
+	sprintf(dd,"%d",distance);
+	LCD_write_english2_string(195,209,dd,Black,White);
+	LCD_write_english2_string(195,273,"CM",Black,White);
 
 }
 
@@ -96,8 +102,8 @@ void validada(void){ //et les 40 dollars ! ;)
 
 void tracer_code(void)
 {
-	int i,x=187,y=91;
-	LCD_fill_rect(185,235,5,315,Black,White);
+	int i,x=195,y=50;
+	LCD_fill_reg(186,234,6,169,White);
 	change_id_am(0,0,1);
 	for (i=0;i<current+1;i++)
 	{

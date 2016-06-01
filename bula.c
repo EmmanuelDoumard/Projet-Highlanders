@@ -61,29 +61,36 @@ void rafraichissement(void)
 
 void valid(void)
 {
+	valida=1;
+}
+	
+
+void validada(void){ //et les 40 dollars ! ;) 
+	
 	ENABLE_BIP=0;
-	lcd_clear(0x3333);
+	lcd_clear(0x0000);
 	if(!strcmp(code,"0000")){//mode root
-		LCD_write_english2_string(134,80,"ROOT",Black,0x3333);
+		LCD_write_english2_string(134,80,"ROOT",Green,0x0000);
 		root=1;
-		envoyermsg(m);
 	}
 	else if(!strcmp(code,"1111")){//mode etalon
-		LCD_write_english2_string(134,80,"ETALON",Black,0x3333);
+		LCD_write_english2_string(134,80,"ETALON",Green,0x0000);
 		etalon=1;
 	}
 	else if(!strcmp(code,"1362")){ //code bon
-		LCD_write_english2_string(134,80,"VALIDER",Black,0x3333);
+		envoyermsg(m);
+		LCD_write_english2_string(134,80,"VALIDER",Green,0x0000);
+		
 	}
 	else{ 									//code pas bon
-		LCD_write_english2_string(134,32,"CANCEROUS",Black,0x3333);
+		LCD_write_english2_string(134,80,"WHOLOLO",Red,0x0000);
 	}
 	current=-1;
 	code[0]='B';
 	code[1]='U';
 	code[2]='L';
 	code[3]='A';
-	etatzer=1;
+	etatzer=3;
 	
 }
 

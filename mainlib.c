@@ -47,49 +47,35 @@ int main(void)
 	{
 		gros_pater();
 		
+		if(valida==1){
+			valida=0;
+			validada();		
+		}
+		
 		if(bula==1){
 			bula=0;
-			if(etatzer==0){				
+			if(etatzer==1){
+				interface();
+			};		
+			if(etatzer<0){				
 				pos_x=0;
 				pos_y=0;
 				getpos();
 				convert();
 				input();
-			} else if(etatzer==1){
-				etatzer=0;
-				interface();
-			}				
+			} else{
+				etatzer--;
+			};
+		}	
 				
 		if(old>-1){
 			raz(old);
 			old=-1;
 			}
-		}
 		
 
 		
-		if(TIM_GetIntStatus(LPC_TIM0,TIM_MR0_INT)==1){
-			if(emi){ // Fonction Roland
-				if (TIMER0_VAR100USROLAND>44){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>22){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>2){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>4){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>9){
-					envoi_message2();
-				}
-				else if (TIMER0_VAR100USROLAND>199){
-					envoi_message2();
-				}
-			}
-		}
+		
 	}
 }
 

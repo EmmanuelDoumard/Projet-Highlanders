@@ -33,6 +33,7 @@ int current=-1;
 int bula=0;
 int etatzer=0;
 int old=-1;
+int valida=-1;
 
 // Variables Roland
 

@@ -30,6 +30,7 @@ extern int current;
 extern int bula;
 extern int etatzer;
 extern int old;
+extern int valida;
 
 // Variables Roland
 

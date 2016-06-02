@@ -38,11 +38,12 @@ void T1_Init(void)
 void TIMER1_IRQHandler(void){
 	trigger++; // cf ultrason
 	echo++;
-	if (trigger == 1 && modeUS == 1) {
+	if (trigger == 1 && modeUS == 1) { //boucle itérative de 250 envois de triggers
 		GPIO_SetValue(0, (1<<24));
 	} else if (trigger == 5 && modeUS == 1) {
 		GPIO_ClearValue(0, (1<<24));
-		nbr++;
+		nbr++; //On incrémente un nombre d'envoi de triggers
+		echo = 0;
 		GPIO_IntCmd(0,(1<<25),1);
 	}
 		

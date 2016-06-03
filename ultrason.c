@@ -9,6 +9,7 @@ void initTabUS(void) {
 	int i;
 	for(i=0;i<250;i++) {
 		tableau[i] = 0; //C'est ici qu'on met le tableau à 0
+		validation[i] = 0;
 	}
 }
 
@@ -39,7 +40,8 @@ void comparaison(void) {
 	} else if (etalon == 1) {
 		distance_set();
 		} else {
-		if(comparaison_tableau()==1) {
+		if(comparaison_tableau()>0) {
+			modeUS = 0;
 			ultravalid=1;
 		}
 	}
@@ -47,32 +49,28 @@ void comparaison(void) {
 
 
 	int comparaison_tableau(void) {
-		int moy=0;
-		int moy2=0;
 		int i;
-		int val=1;/*
+		int val=25;
 		for(i=0;i<249;i++) {
-			moy=moy+tableau[i];
-			moy2=moy2+validation[i];
+			if(tableau[i]<(validation[i]*0.75) || tableau[i]>(validation[i]*1.5)) {
+			val--;
 		}
-		if(moy<(moy2/4) || moy>(moy2*4)) {
-			val=0;
-		}*/
+		}
+		
 		
 		return val;
 		
 	}
 	
 	void distance_set(void) {
-		int moy=0;
 		int i;
+		distance = 0;
 		for(i=0;i<249;i++) {
-			moy=moy+tableau[i];
+			distance=distance+tableau[i];
 		}
-		moy = moy/250;
-		moy = moy/29;
-		moy = moy%99;
-		
-		distance = moy;
+		distance = distance/38000;
+		if(distance<1 && distance >99) {
+			distance = 0;
+		}
 		
 	}

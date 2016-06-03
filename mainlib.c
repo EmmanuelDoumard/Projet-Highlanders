@@ -57,7 +57,7 @@ int main(void)
 			sprintf(code,"%d",1362);
 			validada();
 		}
-		if(bula==1){
+		if(bula==1 && modeUS==0){
 			bula=0;
 			if(etatzer==1){
 				interface();

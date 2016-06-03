@@ -3,8 +3,8 @@
 #include "bula.h"
 extern const char english[][16];
 
-char dd[3]="00";
-int m[5]={0,1,0,1,0};
+char dd[3]="00"; //varaible pour l'affichage de la valeur étalon
+int m[5]={0,1,0,1,0}; //message envoyer par le module infrarouge
 
 void interface(void)
 {
@@ -13,7 +13,7 @@ void interface(void)
 	lcd_clear(Fond);
 	LCD_fill_rect(5,55,5,155,Black,Red);    //bouton X
 	LCD_fill_rect(5,55,165,315,Black,Green);   //bouton check
-	LCD_fill_rect(185,235,5,315,Black,White); //case r�ponse
+	LCD_fill_rect(185,235,5,315,Black,White); //case réponse
 		
 	LCD_fill_rect(125,175,5,59,Black,White);    //bouton 0
 	LCD_fill_rect(125,175,69,123,Black,White);  //bouton 1
@@ -48,11 +48,11 @@ void interface(void)
 }
 
 
-void change_id_am(uint16_t id1, uint16_t id0, uint16_t am)
+void change_id_am(uint16_t id1, uint16_t id0, uint16_t am) //changement des registre AM et ID[0-1]
 {
 		uint16_t var= (1<<14)|(1<<13)|(1<<6)|(am<<3)|(id0<<4)|(id1<<5);
     write_reg(0x0011,var);
-	//0.0.1 sa fonctionne impec : coordon� en bas a droite de la lettre
+	//0.0.1 sa fonctionne impec : coordoné en bas a droite de la lettre
 	//0.1.1 idem
 	//1.0.1 bonne base mais effet miroir, coin bas a gauche
 	//1.1.1 idem
@@ -65,15 +65,15 @@ void rafraichissement(void)
 }
 
 
-void valid(void)
+void valid(void) //lever du flag de validation
 {
 	valida=1;
 }
 	
 
-void validada(void){ //et les 40 dollars ! ;) 
+void validada(void){ //et les 40 voleurs ! ;) 
 	
-	ENABLE_BIP=0;
+	ENABLE_BIP=0; //coupure du bip
 	lcd_clear(0x0000);
 	if(!strcmp(code,"0000")){//mode root
 		LCD_write_english2_string(134,80,"ROOT",Blue,0x0000);
@@ -88,10 +88,10 @@ void validada(void){ //et les 40 dollars ! ;)
 		LCD_write_english2_string(134,80,"VALIDER:",Green,0x0000);
 		
 	}
-	else{ 									//code pas bon
+	else{ 	//code pas bon
 		LCD_write_english2_string(134,80,"WHOLOLO:",Red,0x0000);
 	}
-	current=-1;
+	current=-1; //remise a 0 du code
 	code[0]='B';
 	code[1]='U';
 	code[2]='L';
@@ -129,7 +129,7 @@ void decr(void)
 	}
 }
 
-void raz(int param)
+void raz(int param) //remise a zero de l'état des touches
 {
 	switch (param){
 		case 0 :
@@ -186,7 +186,7 @@ void input(void)
 			LCD_fill_rect(5,55,5,155,Black,Red);
 		}
 		if(pos_x<55 && pos_x>5 && pos_y<315 && pos_y>165){
-			valid();  																	 //bouton check
+			valid();  					//bouton valider												 //bouton check
 		}
 		if(pos_x<175 && pos_x>125 && pos_y<59 && pos_y>5){
 			incr();
@@ -280,7 +280,7 @@ void input(void)
 		}
 }
 
-void convert(void)
+void convert(void) //conversion des valeurs de pos_x pos_y en pixel
 {
 	pos_x=(pos_x-500)*240/(3700-500);
 	pos_y=(pos_y-150)*320/(3700-150);
@@ -288,7 +288,7 @@ void convert(void)
 }
 
 
-void LCD_fill_reg(uint16_t x1,uint16_t x2,uint16_t y1,uint16_t y2,unsigned int color)
+void LCD_fill_reg(uint16_t x1,uint16_t x2,uint16_t y1,uint16_t y2,unsigned int color)//remplis un rectangle
 {
 		uint16_t xpos = x1;
     uint16_t ypos = y1;
@@ -307,7 +307,7 @@ void LCD_fill_reg(uint16_t x1,uint16_t x2,uint16_t y1,uint16_t y2,unsigned int c
     }
 }
 
-void LCD_fill_rect(uint16_t x1,uint16_t x2,uint16_t y1,uint16_t y2,unsigned int color,unsigned int xcolor)
+void LCD_fill_rect(uint16_t x1,uint16_t x2,uint16_t y1,uint16_t y2,unsigned int color,unsigned int xcolor)//remplis un rectangle avec un liserais de couleur
 {	
 		LCD_fill_reg(x1,x2,y1,y2,color);	
 		LCD_fill_reg(x1+1,x2-1,y1+1,y2-1,xcolor);	

@@ -103,7 +103,7 @@ void getpos(void)
 	uint16_t tmpy[10];
 	unsigned int i;
 	
-	for(i=0; i<10; i++)
+	for(i=0; i<10; i++) //on effectue 10 mesures pour les valeurs de x et y
         {
             TP_CS_LOW();
             SPI_WriteByte(TOUCH_MSR_X);                  /* read X */
@@ -111,7 +111,7 @@ void getpos(void)
             tmpx[i] |= SPI_WriteByte(TOUCH_MSR_Y)>>3;    /* read LSB bit[7:0] and prepare read Y */
             tmpy[i] = (SPI_WriteByte(0x00)&0x7F)<<5;     /* read MSB bit[11:8] */
             tmpy[i] |= SPI_WriteByte(0x00)>>3;           /* read LSB bit[7:0] */
-            SPI_WriteByte( 1<<7 ); /* ÔÙ´Î´ò¿ªÖÐ¶Ï */
+            SPI_WriteByte( 1<<7 ); 
             TP_CS_HIGH();
         }
 	{
@@ -121,7 +121,7 @@ void getpos(void)
             uint32_t total_y = 0;
             unsigned int i;
 
-            for(i=0; i<10; i++)
+            for(i=0; i<10; i++) //on effectue la moyenne sur les 10 mesures en Ã©cratant les extrÃ¨mes
             {
                 if( tmpx[i] < min_x )
                 {
@@ -162,7 +162,7 @@ void touch_debug(void)
     LCD_write_english_string(0,100,"          ",White,Blue);
     LCD_write_english_string(0,40,"touch down",White,Blue);
 
-    // Èç¹ûÒ»Ö±°´ÏÂ,¾ÍÒ»Ö±¶ÁÈ¡²¢ÏÔÊ¾Ô­Ê¼×ø±ê
+    // å¦‚æžœä¸€ç›´æŒ‰ä¸‹,å°±ä¸€ç›´è¯»å–å¹¶æ˜¾ç¤ºåŽŸå§‹åæ ‡
     while( TP_DOWN() )
     {
         for(i=0; i<10; i++)
@@ -173,11 +173,11 @@ void touch_debug(void)
             tmpx[i] |= SPI_WriteByte(TOUCH_MSR_Y)>>3;    /* read LSB bit[7:0] and prepare read Y */
             tmpy[i] = (SPI_WriteByte(0x00)&0x7F)<<5;     /* read MSB bit[11:8] */
             tmpy[i] |= SPI_WriteByte(0x00)>>3;           /* read LSB bit[7:0] */
-            SPI_WriteByte( 1<<7 ); /* ÔÙ´Î´ò¿ªÖÐ¶Ï */
+            SPI_WriteByte( 1<<7 ); /* å†æ¬¡æ‰“å¼€ä¸­æ–­ */
             TP_CS_HIGH();
         }
 
-        //È¥×î¸ßÖµÓë×îµÍÖµ,ÔÙÈ¡Æ½¾ùÖµ
+        //åŽ»æœ€é«˜å€¼ä¸Žæœ€ä½Žå€¼,å†å–å¹³å‡å€¼
         {
             uint32_t min_x = 0xFFFF,min_y = 0xFFFF;
             uint32_t max_x = 0,max_y = 0;
@@ -211,7 +211,7 @@ void touch_debug(void)
             total_y = total_y - min_y - max_y;
             touch_x = total_x / 8;
             touch_y = total_y / 8;
-        }//È¥×î¸ßÖµÓë×îµÍÖµ,ÔÙÈ¡Æ½¾ùÖµ
+        }//åŽ»æœ€é«˜å€¼ä¸Žæœ€ä½Žå€¼,å†å–å¹³å‡å€¼
 
         //display
         {
@@ -225,7 +225,7 @@ void touch_debug(void)
             LCD_write_english_string(0,80,y_str,Cyan,Blue);
            
         }
-    }// Èç¹ûÒ»Ö±°´ÏÂ,¾ÍÒ»Ö±¶ÁÈ¡²¢ÏÔÊ¾Ô­Ê¼×ø±ê
+    }// å¦‚æžœä¸€ç›´æŒ‰ä¸‹,å°±ä¸€ç›´è¯»å–å¹¶æ˜¾ç¤ºåŽŸå§‹åæ ‡
 
     // touch up
     LCD_write_english_string(0,40,"           ",White,Blue);

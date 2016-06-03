@@ -36,7 +36,7 @@ int main(void)
 	interface();
 	touch_init();
 
-	// Initialisation Guillaume
+	// Initialisation Guigui
 	
 	pin_Configuration();
 	initTabUS();
